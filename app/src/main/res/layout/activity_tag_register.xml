@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.TagRegisterActivity"
+    android:background="@color/black">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:paddingEnd="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:gravity="center"
+            style="@style/editText_margin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <AutoCompleteTextView
+                android:id="@+id/item_id"
+                android:background="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="@string/item_id"
+                android:inputType="textEmailAddress" />
+
+            <ImageView
+                android:id="@+id/qr_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/qr_code" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_margin="2dp"
+            style="@style/editText"
+            android:background="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <AutoCompleteTextView
+            android:hint="@string/location_id"
+            android:id="@+id/loc_id"
+            style="@style/editText_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:hint="@string/quantity"
+            android:id="@+id/quant"
+            style="@style/editText_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+
+
+        <EditText
+                android:id="@+id/batch_no"
+                android:gravity="top"
+                android:lines="4"
+                android:hint="@string/batch_no"
+                style="@style/editText_margin"
+                android:layout_width="match_parent"
+                android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/remarks"
+            android:gravity="top"
+            android:lines="4"
+            android:hint="@string/remarks"
+            style="@style/editText_margin"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:inputType="textEmailAddress" />
+        <Button
+            android:id="@+id/save"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/print"
+            android:textColor="@color/white"
+            android:background="@drawable/primary_btn"
+            android:onClick="print"
+            tools:ignore="OnClick" />
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,68 @@
+<resources>
+    <string name="app_name">York</string>
+
+    <string name="userid">Email/Phone</string>
+    <string name="password">Password</string>
+    <string name="forgotpassword">Forgot Password ?</string>
+    <string name="authenticating">Authenticating</string>
+    <string name="dont_have_account">Don\'t have an account?</string>
+    <string name="signup">Sign Up</string>
+    <string name="application_name">Application Name</string>
+    <string name="subscribed">Subscribed</string>
+    <string name="connected">Connected</string>
+    <string name="avgrequest">Avg. Requests</string>
+    <string name="configure">Configure</string>
+    <string name="p2l_device_list">P2L Device List</string>
+
+    <string name="menu_item_about">About App</string>
+    <string name="about_app_version">App Version: %s</string>
+    <string name="about_esptouch_version">EspTouch Version: %s</string>
+    <string name="ssid_title">SSID: </string>
+    <string name="bssid_title">BSSID: </string>
+    <string name="password_title">Password: </string>
+    <string name="device_count_title">Device count: </string>
+    <string name="package_broadcast">Broadcast</string>
+    <string name="package_multicast">Multicast</string>
+    <string name="confirm">Confirm</string>
+    <string name="wifi_5g_message">Device don\'t support 5G Wifi, please make sure the currently connected Wifi is 2.4G</string>
+    <string name="location_disable_message">Location(GPS) is disable</string>
+    <string name="no_wifi_connection">No Wifi connection</string>
+    <string name="configuring_message">Esptouch is configuring, please wait for a moment…</string>
+    <string name="configure_wifi_change_message">Wifi disconnected or changed</string>
+    <string name="configure_result_failed">EspTouch failed</string>
+    <string name="configure_result_failed_port">Create Esptouch task failed, the EspTouch port could be used by other thread</string>
+    <string name="configure_result_success">EspTouch Success</string>
+    <string name="configure_result_success_item">BSSID = %1$s, InetAddress = %2$s</string>
+    <string name="verify">Verify</string>
+    <string name="rfid">RFID</string>
+    <string name="bed_id">Bed Id</string>
+    <string name="add_devices">Add Devices</string>
+    <string name="get_status">Get Status</string>
+    <string name="bed_status">Bed Status</string>
+    <string name="select_date">Select Date</string>
+    <string name="description">Description</string>
+    <string name="key">Key</string>
+    <string name="value">Value</string>
+    <string name="histrory">History</string>
+    <string name="in_time">In Time</string>
+    <string name="out_time">Out Time</string>
+    <string name="bed_history">History</string>
+    <string name="bed_info">Bed Info</string>
+    <string name="bed_list">Bed List</string>
+    <string name="add_bed">Add Bed</string>
+    <string name="server_ip">Server IP</string>
+    <string name="server_port">Server Port</string>
+    <string name="save">Save</string>
+    <string name="server_setting">Server Setting</string>
+    <string name="logout">Logout</string>
+    <string name="dash">---</string>
+    <string name="quantity">Quantity</string>
+    <string name="batch_no">Batch No</string>
+    <string name="item_id">Item Id</string>
+    <string name="print">Print</string>
+    <string name="remarks">Remarks</string>
+    <string name="cycle_count">Cycle Count</string>
+    <string name="location_id">Location Id</string>
+    <string name="poweredby">Powered By Aliter Business Solutions Pvt. Ltd.</string>
+
+</resources>
