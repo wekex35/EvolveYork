@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="measuring_units">
+        <item>UM</item>
+        <item>CM</item>
+        <item>EA</item>
+        <item>FT</item>
+        <item>G</item>
+        <item>IN</item>
+        <item>KG</item>
+        <item>L</item>
+        <item>LB</item>
+        <item>M</item>
+        <item>ML</item>
+        <item>MM</item>
+        <item>OZ</item>
+        <item>SF</item>
+        <item>YD</item>
+    </string-array>
+</resources>

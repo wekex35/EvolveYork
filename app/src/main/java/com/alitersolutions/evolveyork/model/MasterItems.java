@@ -3,7 +3,9 @@ package com.alitersolutions.evolveyork.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class MasterItems {
+import java.io.Serializable;
+
+public class MasterItems implements Serializable {
 
     @Expose
     @SerializedName("EvolveItemID")

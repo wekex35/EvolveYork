@@ -1,4 +1,4 @@
-package adapter;
+package com.alitersolutions.evolveyork.adapter;
 
 
 import android.content.Context;
@@ -19,11 +19,11 @@ import static android.view.View.GONE;
 import static com.alitersolutions.evolveyork.utils.AppUtils.getDurationFromSeconds;
 import static com.alitersolutions.evolveyork.utils.AppUtils.getParsedDate;
 
-public class BedHistoryListAdapter extends RecyclerView.Adapter<BedHistoryListAdapter.BedListViewHolder>{
+public class ItemHistoryListAdapter extends RecyclerView.Adapter<ItemHistoryListAdapter.BedListViewHolder>{
     List<BedHistoryModel> bedInfos;
     Context context;
 
-    public BedHistoryListAdapter(Context context, List<BedHistoryModel> bedInfos) {
+    public ItemHistoryListAdapter(Context context, List<BedHistoryModel> bedInfos) {
         this.context = context;
         this.bedInfos = bedInfos;
     }
@@ -31,7 +31,7 @@ public class BedHistoryListAdapter extends RecyclerView.Adapter<BedHistoryListAd
     @NonNull
     @Override
     public BedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.history_bed_item_list,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.history_cycle_list_item,parent,false);
         return new BedListViewHolder(view);
     }
 
@@ -52,10 +52,7 @@ public class BedHistoryListAdapter extends RecyclerView.Adapter<BedHistoryListAd
 
         public BedListViewHolder(@NonNull View view) {
             super(view);
-            bed_code = view.findViewById(R.id.bed_code);
-            in_time = view.findViewById(R.id.in_time);
-            out_time = view.findViewById(R.id.out_time);
-            duration = view.findViewById(R.id.duration);
+
 //            parent = view.findViewById(R.id.parent);
         }
 
@@ -84,7 +81,7 @@ public class BedHistoryListAdapter extends RecyclerView.Adapter<BedHistoryListAd
            /* parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, BedInfo.class);
+                    Intent intent = new Intent(context, ItemInfo.class);
                     //intent.putExtra(INDTENTDATA,bedInfoModel);
                     context.startActivity(intent);
                 }

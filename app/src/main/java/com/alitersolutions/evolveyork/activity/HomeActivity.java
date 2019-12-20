@@ -39,13 +39,10 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
 
     }
 
-    public void addBed(View view) {
 
-
-    }
 
     public void getBed(View view) {
-        openAcitivty(BedList.class);
+        openAcitivty(ItemList.class);
     }
 /*
     private Callback<ResponseModel> setHomeAplicatinList() {
@@ -121,6 +118,19 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
     }
 
     public void addCycleCount(View view) {
-        openAcitivty(TagRegisterActivity.class);
+        openAcitivty(CycleCountActivity.class);
+    }
+
+    public void showItemLIst(View view) {
+        openAcitivty(ItemList.class);
+    }
+
+    public void locationList(View view) {
+        openAcitivty(LocationLists.class);
+    }
+
+    public void countHistry(View view) {
+        openAcitivty(CycleHistory.class);
+
     }
 }

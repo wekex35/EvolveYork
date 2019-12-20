@@ -3,6 +3,7 @@ package com.alitersolutions.evolveyork.Retrofit;
 import com.alitersolutions.evolveyork.model.AddBedModel;
 import com.alitersolutions.evolveyork.model.BedHistoryResponse;
 import com.alitersolutions.evolveyork.model.ResponseModel;
+import com.alitersolutions.evolveyork.model.SentModel;
 import com.alitersolutions.evolveyork.model.UserModel;
 
 import retrofit2.Call;
@@ -25,31 +26,17 @@ public interface ProviderApi {
 //        String BASE_SITE = "http://192.168.1.102/aliter/";
 
 
-        @POST("auth/login")
-        Call<ResponseModel> loginUser(@Body UserModel userModel);
+        @GET("get_all_location")
+        Call<ResponseModel> getAllLocation();
 
-        @GET("getallSizes")
-        Call<ResponseModel> getAllSizes();
-
-        @GET("getallTypes")
-        Call<ResponseModel> getallTypes();
+        @GET("get_all_item")
+        Call<ResponseModel> getallItems();
 
         @GET("getBedsList")
         Call<ResponseModel> getBedList();
 
-        @POST("addBeds")
-        Call<ResponseModel>  addBed(@Body AddBedModel abm);
-
-        @GET("getBedsHistory")
-
-        Call<BedHistoryResponse> getBedHistory(@Query("start") int start,
-                                               @Query("length") int length,
-                                               @Query("bed_id") int bed_id,
-                                               @Query("draw") int draw,
-                                               @Query("value") int value,
-                                               @Query("startDate") String startDate,
-                                               @Query("endDate") String endDate/* ,
-                                         @Path("inorouttime") boolean inorouttime*/);
+        @POST("update_item_history")
+        Call<ResponseModel>  sentToServer(@Body SentModel sentModel);
 
 
 

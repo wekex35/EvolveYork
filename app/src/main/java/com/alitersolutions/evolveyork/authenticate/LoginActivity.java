@@ -23,6 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
+import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
 import static com.alitersolutions.evolveyork.utils.Constants.TOKEN;
 import static com.alitersolutions.evolveyork.utils.Constants.USERLOGINDETAILS;
@@ -44,7 +45,7 @@ public class LoginActivity extends BaseActivity implements DataLoadListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         BASE_SITE = getStringValue(this,BASEURL);
-        BASE_URL = BASE_SITE + "/api/v1/evolve/";
+        BASE_URL = BASE_SITE + APIROUTE;
         if (BASE_SITE.length() < 16){
             Toast.makeText(this, "Configure Server IP", Toast.LENGTH_SHORT).show();
             saveServerInfo(LoginActivity.this);
@@ -72,7 +73,7 @@ public class LoginActivity extends BaseActivity implements DataLoadListener {
             Gson gson = new Gson();
             String str = gson.toJson(model);
             Log.d(TAG, "SignIn: " + str);
-            RetrofitUtil.createProviderAPI().loginUser(model).enqueue(serverResponse());
+            //RetrofitUtil.createProviderAPI().loginUser(model).enqueue(serverResponse());
         }
 
     }

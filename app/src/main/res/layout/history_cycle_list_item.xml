@@ -12,21 +12,18 @@
         android:layout_height="wrap_content"
         android:id="@+id/parent">
 
-        <TextView
-            android:id="@+id/bed_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent" />
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/out"
+
+            android:id="@+id/date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@+id/bed_code">
+            app:layout_constraintTop_toTopOf="parent" >
 
             <TextView
-                android:text="@string/out_time"
+                android:id="@+id/added_date"
+                android:text="@string/date"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
@@ -37,7 +34,39 @@
                 app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
-                android:id="@+id/out_time"
+                android:text="@string/not_update"
+                android:id="@+id/status"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:hint="@string/dash"
+                android:padding="@dimen/dp_5"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/out"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/date">
+
+            <TextView
+                android:text="@string/item_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.6"
+                android:hint="@string/key"
+                android:padding="@dimen/dp_5"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/item_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -57,7 +86,7 @@
             app:layout_constraintTop_toBottomOf="@+id/out">
 
             <TextView
-                android:text="@string/in_time"
+                android:text="@string/location"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
@@ -69,7 +98,7 @@
                 tools:layout_editor_absoluteY="0dp" />
 
             <TextView
-                android:id="@+id/in_time"
+                android:id="@+id/loaction"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
@@ -90,18 +119,19 @@
             app:layout_constraintTop_toBottomOf="@+id/in">
 
             <TextView
-                android:text="Duration"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.6"
                 android:hint="@string/key"
                 android:padding="@dimen/dp_5"
+                android:text="@string/qunatity"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/duration"
+                android:id="@+id/qunatity"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"

@@ -9,6 +9,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.net.http.SslCertificate;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,17 +21,20 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.Retrofit.RetrofitUtil;
-import com.alitersolutions.evolveyork.model.AddBedModel;
+import com.alitersolutions.evolveyork.database.DatabaseHelper;
 import com.alitersolutions.evolveyork.model.BedSizes;
 import com.alitersolutions.evolveyork.model.BedTypes;
+import com.alitersolutions.evolveyork.model.MasterItems;
+import com.alitersolutions.evolveyork.model.MasterLocation;
 import com.alitersolutions.evolveyork.model.ResponseModel;
+import com.alitersolutions.evolveyork.model.SentModel;
 import com.google.gson.reflect.TypeToken;
 
 import java.text.SimpleDateFormat;
@@ -45,15 +49,24 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TagRegisterActivity extends BaseActivity implements ZBarScannerView.ResultHandler {
-    private String TAG = "TagRegisterActivity";
+import static com.alitersolutions.evolveyork.utils.AppUtils.getCurrentTimeStamp;
+import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
+
+public class CycleCountActivity extends BaseActivity implements ZBarScannerView.ResultHandler {
+    private String TAG = "CycleCountActivity";
     public static ZBarScannerView mScannerView;
     AutoCompleteTextView _itemID,_loc_id;
     EditText _quantity,_batch_no,_remarks;
     ImageView qr_code;
-    TextView dateTV;
+    TextView dateTV,itemDesc;
     Spinner bedSizes,bedTypes;
     int bedSizeId,bedTypeId;
+    int EvolveLocId = 0;
+    int EvovlePartId = 0;
+
+    String DLname,DIname;
+    Spinner units;
+
     Button save;
     final Calendar myCalendar = Calendar.getInstance();
 
@@ -61,7 +74,7 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tag_register);
+        setContentView(R.layout.activity_cycle_count);
         setTitle("Cycle Count");
 //        if (checkPermission()) {
 //            //startActivity(new Intent(this,BarcodeScanner.class));
@@ -78,7 +91,7 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
         qr_code.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TagRegisterActivity.this, "Scan Item Code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CycleCountActivity.this, "Scan Item Code", Toast.LENGTH_SHORT).show();
                 //readBarcode();
                 readBarcode(_itemID);
 
@@ -94,11 +107,68 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
         _batch_no = findViewById(R.id.batch_no);
         _remarks = findViewById(R.id.remarks);
         _loc_id = findViewById(R.id.loc_id);
-
+        itemDesc = findViewById(R.id.itemDesc);
         save = findViewById(R.id.save);
+        units = findViewById(R.id.units);
 
 //        RetrofitUtil.createProviderAPIV2(this).getallTypes().enqueue(loadTypes());
  //       RetrofitUtil.createProviderAPIV2(this).getAllSizes().enqueue(loadSizes());
+
+        loadItems();
+        loadLocations();
+
+    }
+
+    private void loadItems() {
+        String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.items_api_response));
+        final List<MasterItems> masterItems = gson.fromJson(myJson,new TypeToken<List<MasterItems>>(){}.getType());
+
+        final ArrayList<String> LocAdaptList = new ArrayList<>();
+        for (MasterItems masterItem: masterItems) {
+            if (masterItem.getEvolveItemPart() != null)
+            LocAdaptList.add(masterItem.getEvolveItemPart().trim());
+            Log.d(TAG, "loadItems: "+masterItem.getEvolveItemPart());
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, LocAdaptList);
+        spinnerArrayAdapter.setDropDownViewResource(R.layout.autocomplete_item_dropdown_item); // The drop down vieww
+        _itemID.setAdapter(spinnerArrayAdapter);
+
+        _itemID.setThreshold(1);
+
+
+        _itemID.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, "onItemSelected: "+masterItems.get(position).getEvolveItemDescription());
+                itemDesc.setText(masterItems.get(position).getEvolveItemDescription());
+                EvovlePartId = masterItems.get(position).getEvolveItemID();
+                DIname = masterItems.get(position).getEvolveItemPart();
+                itemDesc.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+    private void loadLocations() {
+        String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.location_sapi_response));
+        //MasterLocation myModel = new Gson().fromJson(myJson, MasterLocation.class);
+        final List<MasterLocation> masterLocations = gson.fromJson(myJson,new TypeToken<List<MasterLocation>>(){}.getType());
+
+        ArrayList<String> LocAdaptList = new ArrayList<>();
+        for (MasterLocation masterLocation: masterLocations) {
+            LocAdaptList.add(masterLocation.getEvolveItemLocation().trim());
+        }
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, LocAdaptList);
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
+        _loc_id.setAdapter(spinnerArrayAdapter);
+        _loc_id.setThreshold(1);
+        _loc_id.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
+                DLname = masterLocations.get(position).getEvolveItemLocation();
+            }
+        });
 
     }
 
@@ -115,7 +185,7 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
                     spinnerSizes.add(bedsize.getEvolveSize_Name());
                 }
 
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(TagRegisterActivity.this,android.R.layout.simple_spinner_item, spinnerSizes);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, spinnerSizes);
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
                 bedSizes.setAdapter(spinnerArrayAdapter);
 
@@ -154,7 +224,7 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
                     spinnerTypes.add(bedtype.getEvolveType_Name());
                 }
 
-                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(TagRegisterActivity.this,android.R.layout.simple_spinner_item, spinnerTypes);
+                ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, spinnerTypes);
                 spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
                 bedTypes.setAdapter(spinnerArrayAdapter);
 
@@ -230,7 +300,7 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(TagRegisterActivity.this)
+        new AlertDialog.Builder(CycleCountActivity.this)
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)
                 .setNegativeButton("Cancel", null)
@@ -301,12 +371,8 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
     }
 
 
-    public void addBed(View view) {
-        String itemId = _itemID.getText().toString();
-        String batchNo = _batch_no.getText().toString();
-        String quantity = _quantity.getText().toString();
-        String remarks = _remarks.getText().toString();
-        String loc_id = _loc_id.getText().toString();
+    public void addItem(View view) {
+
 
 /*        AddBedModel Abm = new AddBedModel();
         if(bedId.length() < 1){
@@ -336,9 +402,9 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
         return new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                Toast.makeText(TagRegisterActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(CycleCountActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                 if(response.body().getMessage().toLowerCase().contains("success")){
-                    TagRegisterActivity.this.finish();
+                    CycleCountActivity.this.finish();
                 }
                 hideProgressDialog();
             }
@@ -353,6 +419,53 @@ public class TagRegisterActivity extends BaseActivity implements ZBarScannerView
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    public void print(View view) {
+
+
+       // int itemId = Integer.parseInt(_itemID.getText().toString());
+        String batchNo = _batch_no.getText().toString();
+        int quantity = 0;
+        if (!_quantity.getText().toString().isEmpty())
+          quantity = Integer.parseInt(_quantity.getText().toString());
+        String remarks = _remarks.getText().toString();
+       // int loc_id = Integer.parseInt(_loc_id.getText().toString());
+        if (batchNo.isEmpty())
+            showToast("Batch No. cannot be empty");
+        else if (_quantity.getText().toString().isEmpty())
+            showToast("Qunatity cannot be empty");
+        else if (remarks.isEmpty())
+            showToast("Remarks cannot be empty");
+        else if (_itemID.getText().toString().isEmpty())
+            showToast("Select Valid Part");
+        else if (_loc_id.getText().toString().isEmpty())
+            showToast("Select Valid Location");
+        else {
+            SentModel sentModel = new SentModel();
+
+            sentModel.setEvolveItemID(EvovlePartId);
+            sentModel.setEvolveBatchNo(batchNo);
+            sentModel.setEvolveItemQty(quantity);
+            sentModel.setEvolveItemRemarks(remarks);
+            sentModel.setEvolveItemLocationID(EvolveLocId);
+            sentModel.setEvolveItemMeasuringUnits(units.getSelectedItem().toString());
+
+            Log.d(TAG, "print: " + gson.toJson(sentModel));
+            RetrofitUtil.createProviderAPI().sentToServer(sentModel).enqueue(bedAdded());
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+
+            sentModel.setEvolveLocationName(DLname);
+            sentModel.setEvolveItemName(DIname);
+            sentModel.setUpdatedDate(getCurrentTimeStamp());
+            sentModel.setUploadStatus("NOT SENT");
+            if(databaseHelper.insertCycleCount(sentModel) > 0 ){
+                Log.d(TAG, "print: Saved");
+            }else
+                Log.d(TAG, "print: Not Saved");
+
+        }
 
     }
 }

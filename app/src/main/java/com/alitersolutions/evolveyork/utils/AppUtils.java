@@ -7,6 +7,7 @@ package com.alitersolutions.evolveyork.utils;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -22,18 +23,26 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.alitersolutions.evolveyork.R;
+import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
+import static java.lang.System.in;
 
 public class AppUtils {
 
@@ -96,6 +105,7 @@ public class AppUtils {
         return EMPTY_STRING;
 
     }
+
     public static String getHashKey(Context pContext) {
         try {
             PackageInfo info = pContext.getPackageManager().getPackageInfo(pContext.getPackageName(), PackageManager.GET_SIGNATURES);
@@ -129,6 +139,7 @@ public class AppUtils {
 
         final EditText ip = view1.findViewById(R.id.ip);
         final EditText port = view1.findViewById(R.id.port);
+        if (BASE_SITE != null)
         if (BASE_SITE.length() > 15 && BASE_SITE.contains(":")){
             String[] ipPort = BASE_SITE.split(":");
             if (ipPort.length==3) {
@@ -146,7 +157,7 @@ public class AppUtils {
                // if (isServerAvailable(base_url)){
                     storeStringValue(context,BASEURL,base_url);
                     BASE_SITE = base_url;
-                BASE_URL = base_url + "/api/v1/evolve/";
+                BASE_URL = base_url + APIROUTE;
                 Log.d(TAG, BASE_URL+" onClick: "+BASE_SITE);
 
                 Toast.makeText(context, "Saved Successfully", Toast.LENGTH_SHORT).show();
@@ -171,6 +182,65 @@ public class AppUtils {
 
         return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
+
+    public static String inputStreamToString(InputStream inputStream) {
+        try {
+            byte[] bytes = new byte[inputStream.available()];
+            inputStream.read(bytes, 0, bytes.length);
+            String json = new String(bytes);
+            return json;
+        } catch (IOException e) {
+            return null;
+        }
+    }
+
+    public static String getCurrentTimeStamp(){
+        try {
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            String currentTimeStamp = dateFormat.format(new Date()); // Find todays date
+
+            return currentTimeStamp;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
+    public static ContentValues objectToContentValues(Object o, Field... ignoredFields) {
+        try {
+            ContentValues values = new ContentValues();
+
+            //Will ignore any of the fields you pass in here
+            List<Field> fieldsToIgnore = Arrays.asList(ignoredFields);
+
+            for(Field field : o.getClass().getDeclaredFields()) {
+                field.setAccessible(true);
+
+                if(fieldsToIgnore.contains(field))
+                    continue;
+
+                Object value = field.get(o);
+                if(value != null) {
+                    //This part just makes sure the content values can handle the field
+                    if(value instanceof Double || value instanceof Integer || value instanceof String || value instanceof Boolean
+                            || value instanceof Long || value instanceof Float || value instanceof Short) {
+                        values.put(field.getAnnotation(SerializedName.class).value(), value.toString());
+                    }
+                }
+                else
+                    Log.d("value is null"," so we don't include it");
+            }
+
+            return values;
+        } catch(Exception e) {
+            Log.d(TAG, "objectToContentValues: "+e);
+            throw new NullPointerException("content values failed to build");
+        }
+    }
+
+
 /*
     public static void openWebview(Context context, String url, String title) {
         Intent intent = new Intent(context, WebviewActivity.class);

@@ -1,4 +1,4 @@
-package adapter;
+package com.alitersolutions.evolveyork.adapter;
 
 
 import android.content.Context;
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -13,20 +15,23 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alitersolutions.evolveyork.R;
-import com.alitersolutions.evolveyork.activity.BedInfo;
+import com.alitersolutions.evolveyork.activity.ItemInfo;
 import com.alitersolutions.evolveyork.model.BedInfoModel;
+import com.alitersolutions.evolveyork.model.MasterItems;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.alitersolutions.evolveyork.utils.Constants.INDTENTDATA;
 
-public class BedListAdapter extends RecyclerView.Adapter<BedListAdapter.BedListViewHolder>{
-    List<BedInfoModel> bedInfos;
+public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BedListViewHolder> {
+    List<MasterItems> masterItems;
     Context context;
+    private final Object mLock = new Object();
 
-    public BedListAdapter(Context context, List<BedInfoModel> bedInfos) {
+    public ItemListAdapter(Context context, List<MasterItems> masterItems) {
         this.context = context;
-        this.bedInfos = bedInfos;
+        this.masterItems = masterItems;
     }
 
     @NonNull
@@ -38,13 +43,14 @@ public class BedListAdapter extends RecyclerView.Adapter<BedListAdapter.BedListV
 
     @Override
     public void onBindViewHolder(@NonNull BedListViewHolder holder, int position) {
-        holder.setData(bedInfos.get(position));
+        holder.setData(masterItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return bedInfos.size();
+        return masterItems.size();
     }
+
 
     public class BedListViewHolder extends RecyclerView.ViewHolder {
         TextView key;
@@ -59,21 +65,23 @@ public class BedListAdapter extends RecyclerView.Adapter<BedListAdapter.BedListV
             parent = view.findViewById(R.id.parent);
         }
 
-        public void setData(final BedInfoModel bedInfoModel) {
-            key.setText(bedInfoModel.getEvolveBed_Code());
-            String status = "OUT";
+        public void setData(final MasterItems masterItems) {
+            key.setText(masterItems.getEvolveItemPart());
+           /* String status = "OUT";
             if (bedInfoModel.getEvolveBed_Status()){
                 status = "IN";
-            }
-            value.setText(status);
+            }*/
+            value.setText(masterItems.getEvolveItemDescription());
             parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, BedInfo.class);
-                    intent.putExtra(INDTENTDATA,bedInfoModel);
+                    Intent intent = new Intent(context, ItemInfo.class);
+                    intent.putExtra(INDTENTDATA,masterItems);
                     context.startActivity(intent);
                 }
             });
         }
     }
+
+
 }

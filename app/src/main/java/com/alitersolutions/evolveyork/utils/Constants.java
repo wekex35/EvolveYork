@@ -8,4 +8,7 @@ public interface Constants {
     String  INDTENTDATA = "indtentdata";
     String  TAG = "evolveyork";
     String  BASEURL = "baseurl";
+    String  LOCATIONINFO = "locationinfo";
+    String  ITEMINFO = "iteminfo";
+    String  APIROUTE = "/Items_API/";
 }

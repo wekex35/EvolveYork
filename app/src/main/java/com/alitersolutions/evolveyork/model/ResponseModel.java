@@ -19,6 +19,14 @@ public class ResponseModel implements Serializable {
     private String message;
 
     @Expose
+    @SerializedName("error")
+    private String error;
+
+    @Expose
+    @SerializedName("Items")
+    private Object items;
+
+    @Expose
     @SerializedName("success")
     private boolean success;
 
@@ -29,6 +37,10 @@ public class ResponseModel implements Serializable {
     @Expose
     @SerializedName("result")
     private Object result;
+
+    @Expose
+    @SerializedName("Locations")
+    private Object Locations;
 
     public String getStatus() {
         return status;
@@ -76,5 +88,29 @@ public class ResponseModel implements Serializable {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public Object getItems() {
+        return items;
+    }
+
+    public void setItems(Object items) {
+        this.items = items;
+    }
+
+    public Object getLocations() {
+        return Locations;
+    }
+
+    public void setLocations(Object locations) {
+        Locations = locations;
     }
 }

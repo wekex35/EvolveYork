@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.TagRegisterActivity"
+    tools:context=".activity.CycleCountActivity"
     android:background="@color/black">
     <ScrollView
         android:layout_width="match_parent"
@@ -41,6 +41,8 @@
         </LinearLayout>
 
         <TextView
+            android:visibility="gone"
+            android:id="@+id/itemDesc"
             android:layout_margin="2dp"
             style="@style/editText"
             android:background="@color/white"
@@ -73,6 +75,22 @@
                 style="@style/editText_margin"
                 android:layout_width="match_parent"
                 android:inputType="textEmailAddress" />
+
+
+
+        <RelativeLayout
+            style="@style/editText_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:entries="@array/measuring_units"
+                android:id="@+id/units"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </Spinner>
+
+        </RelativeLayout>
 
         <EditText
             android:id="@+id/remarks"

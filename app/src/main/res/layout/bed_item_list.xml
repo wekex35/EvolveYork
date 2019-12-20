@@ -13,9 +13,11 @@
         android:textColor="@color/black"
         android:id="@+id/key"
         android:hint="@string/key"
-        android:padding="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_5"
         android:layout_width="0dp"
-        android:layout_weight="0.6"
+        android:layout_weight="0.4"
         android:layout_height="wrap_content"/>
 
     <TextView
@@ -23,9 +25,11 @@
         android:textAlignment="center"
         android:id="@+id/value"
         android:hint="@string/value"
-        android:padding="@dimen/dp_10"
+        android:paddingTop="@dimen/dp_5"
+        android:paddingBottom="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_5"
         android:layout_width="0dp"
-        android:layout_weight="0.4"
+        android:layout_weight="0.6"
         android:layout_height="wrap_content"/>
     </LinearLayout>
     <include layout="@layout/singleline"/>

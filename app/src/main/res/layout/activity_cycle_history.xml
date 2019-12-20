@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.BedList">
+    tools:context=".activity.CycleHistory">
     <androidx.recyclerview.widget.RecyclerView
-        android:padding="@dimen/dp_5"
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         style="@style/floatingButton"
         />
+
 </RelativeLayout>

@@ -1,0 +1,350 @@
+{
+    "Locations": [
+        {
+            "EvolveItemLocationID": 1,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": " SSA024",
+            "EvolveItemDescription": "Adwait",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 2,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "EXIB",
+            "EvolveItemDescription": "Exhibition location",
+            "EvolveItemLocationInvStatus": "RM",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 3,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "Export",
+            "EvolveItemDescription": "Export Location",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 4,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "FG",
+            "EvolveItemDescription": "Finished Goods Store",
+            "EvolveItemLocationInvStatus": "FG",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 5,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "GIT",
+            "EvolveItemDescription": "Goods In Transit",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 6,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "IMPORT",
+            "EvolveItemDescription": "Import Saferty Location",
+            "EvolveItemLocationInvStatus": "Import",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 7,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "IQC",
+            "EvolveItemDescription": "Inward QC",
+            "EvolveItemLocationInvStatus": "QC-HOLD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 8,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "MRO",
+            "EvolveItemDescription": "Maintenance & Spares",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 9,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "OQC",
+            "EvolveItemDescription": "Outward QC",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 10,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "QC",
+            "EvolveItemDescription": "",
+            "EvolveItemLocationInvStatus": "IQC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 11,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "RETURN",
+            "EvolveItemDescription": "Retun to supplier",
+            "EvolveItemLocationInvStatus": "RETURN",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 12,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "RM",
+            "EvolveItemDescription": "Raw Material Store",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 13,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SCRAP",
+            "EvolveItemDescription": "Scrap Store",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 14,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SERVICE",
+            "EvolveItemDescription": "SERVICE LOCATION",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 15,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SMA033",
+            "EvolveItemDescription": "Ameya",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 16,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SMS032",
+            "EvolveItemDescription": "Shree Enterprises",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 17,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SPARES",
+            "EvolveItemDescription": "SPARES DIVISION",
+            "EvolveItemLocationInvStatus": "SPARES",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 18,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SSA015",
+            "EvolveItemDescription": "Ask Eng",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 19,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "SSA024",
+            "EvolveItemDescription": "Adwait",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 20,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "STB001",
+            "EvolveItemDescription": "Bharat Eng",
+            "EvolveItemLocationInvStatus": "SUBC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 21,
+            "EvolveItemLocationSite": "10",
+            "EvolveItemLocation": "YTEI",
+            "EvolveItemDescription": "YTEI- GIT for DRP",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 22,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "BON-WH",
+            "EvolveItemDescription": "Bonded Warehouse",
+            "EvolveItemLocationInvStatus": "FG",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 23,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "GIT",
+            "EvolveItemDescription": "Goods In Transit",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 24,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "IQC",
+            "EvolveItemDescription": "Incoming Inspection TRD",
+            "EvolveItemLocationInvStatus": "QC-HOLD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 25,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "QC-R",
+            "EvolveItemDescription": "Incoming QC Rednet",
+            "EvolveItemLocationInvStatus": "QC",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 26,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "SCRAP",
+            "EvolveItemDescription": "Scrap Store",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 27,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "SCRAP-R",
+            "EvolveItemDescription": "Scrap Location Rednet",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 28,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "WHS",
+            "EvolveItemDescription": "Warehouse Stores",
+            "EvolveItemLocationInvStatus": "FG",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 29,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "WHS-R",
+            "EvolveItemDescription": "WareHouse Rednet",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 30,
+            "EvolveItemLocationSite": "20",
+            "EvolveItemLocation": "YTEI",
+            "EvolveItemDescription": "YTEI- GIT for DRP",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 31,
+            "EvolveItemLocationSite": "25",
+            "EvolveItemLocation": "SCRAP-R",
+            "EvolveItemDescription": "Scarp - Import",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 32,
+            "EvolveItemLocationSite": "25",
+            "EvolveItemLocation": "WHS-R",
+            "EvolveItemDescription": "Import Warehouse",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 33,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "GIT",
+            "EvolveItemDescription": "Goods In Transit",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 34,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "IQC",
+            "EvolveItemDescription": "Inward QC",
+            "EvolveItemLocationInvStatus": "QC-HOLD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 35,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "RETURN",
+            "EvolveItemDescription": "Retun to supplier",
+            "EvolveItemLocationInvStatus": "RETURN",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 36,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "SCRAP",
+            "EvolveItemDescription": "Scrap Store",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 37,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "TRF-FG",
+            "EvolveItemDescription": "TRF Finished Goods Store",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 38,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "TRF-RM",
+            "EvolveItemDescription": "TRF Raw Material Store",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 39,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "WHS",
+            "EvolveItemDescription": "Warehouse stores",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 40,
+            "EvolveItemLocationSite": "30",
+            "EvolveItemLocation": "YTEI",
+            "EvolveItemDescription": "YTEI- GIT for DRP",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 41,
+            "EvolveItemLocationSite": "40",
+            "EvolveItemLocation": "GIT",
+            "EvolveItemDescription": "Goods In Transit",
+            "EvolveItemLocationInvStatus": "GIT",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 42,
+            "EvolveItemLocationSite": "40",
+            "EvolveItemLocation": "SCRAP",
+            "EvolveItemDescription": "Scrap Store",
+            "EvolveItemLocationInvStatus": "SCRAP",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        },
+        {
+            "EvolveItemLocationID": 43,
+            "EvolveItemLocationSite": "40",
+            "EvolveItemLocation": "WHS",
+            "EvolveItemDescription": "Warehouse Stores",
+            "EvolveItemLocationInvStatus": "GOOD",
+            "EvolveItemLocationCreatedDate": "2019-12-18 11:13:57.000"
+        }
+    ],
+    "message": "Success",
+    "error": false
+}

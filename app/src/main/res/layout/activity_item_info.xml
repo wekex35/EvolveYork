@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.BedInfo">
+    tools:context=".activity.ItemInfo">
     <ScrollView
 
         android:layout_width="match_parent"
@@ -19,6 +19,7 @@
     </ScrollView>
 
     <Button
+        android:visibility="gone"
         android:id="@+id/save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
