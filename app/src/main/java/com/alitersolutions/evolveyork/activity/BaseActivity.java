@@ -48,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    protected void showProgressDialog(String msg) {
+    public void showProgressDialog(String msg) {
         try {
             if (progressDialog != null && !progressDialog.isShowing()) {
                 progressDialog.setMessage(msg);
@@ -58,11 +58,11 @@ public class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-    protected void showProgressDialog() {
+    public void showProgressDialog() {
         showProgressDialog("Loading...");
     }
 
-    protected void hideProgressDialog() {
+    public void hideProgressDialog() {
         try {
             if (progressDialog != null && progressDialog.isShowing()) {
                 progressDialog.dismiss();

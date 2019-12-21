@@ -8,7 +8,7 @@
     <string name="dont_have_account">Don\'t have an account?</string>
     <string name="signup">Sign Up</string>
     <string name="application_name">Application Name</string>
-    <string name="subscribed">Subscribed</string>
+    <string name="subscriAxle">SubscriAxle</string>
     <string name="connected">Connected</string>
     <string name="avgrequest">Avg. Requests</string>
     <string name="configure">Configure</string>
@@ -35,10 +35,10 @@
     <string name="configure_result_success_item">BSSID = %1$s, InetAddress = %2$s</string>
     <string name="verify">Verify</string>
     <string name="rfid">RFID</string>
-    <string name="bed_id">Bed Id</string>
+    <string name="axle_id">Axle Id</string>
     <string name="add_devices">Add Devices</string>
     <string name="get_status">Get Status</string>
-    <string name="bed_status">Bed Status</string>
+    <string name="axle_status">Axle Status</string>
     <string name="select_date">Select Date</string>
     <string name="description">Description</string>
     <string name="key">Key</string>
@@ -46,10 +46,10 @@
     <string name="histrory">History</string>
     <string name="in_time">In Time</string>
     <string name="out_time">Out Time</string>
-    <string name="bed_history">History</string>
-    <string name="bed_info">Bed Info</string>
-    <string name="bed_list">Bed List</string>
-    <string name="add_bed">Add Bed</string>
+    <string name="axle_history">History</string>
+    <string name="axle_info">Axle Info</string>
+    <string name="axle_list">Axle List</string>
+    <string name="add_Axle">Add Axle</string>
     <string name="server_ip">Server IP</string>
     <string name="server_port">Server Port</string>
     <string name="save">Save</string>
@@ -64,5 +64,18 @@
     <string name="cycle_count">Cycle Count</string>
     <string name="location_id">Location Id</string>
     <string name="poweredby">Powered By Aliter Business Solutions Pvt. Ltd.</string>
+    <string name="item_list">Items List</string>
+    <string name="location_list">Locations List</string>
+    <string name="count_history">Count History</string>
+    <string name="qunatity">Qunatity</string>
+    <string name="item_name">Item Name</string>
+    <string name="location">Location</string>
+    <string name="date">Date</string>
+    <string name="sent">Sent</string>
+    <string name="not_update">Not Update</string>
+    <string name="re_print">Re Print</string>
+    <string name="upload">Upload</string>
+    <string name="more_option">More Option</string>
+
 
 </resources>

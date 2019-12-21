@@ -370,33 +370,6 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         dateTV.setText(sdf.format(myCalendar.getTime()));
     }
 
-
-    public void addItem(View view) {
-
-
-/*        AddBedModel Abm = new AddBedModel();
-        if(bedId.length() < 1){
-            showToast("RFID is required");
-        }else if(des.length() < 1){
-
-            showToast("Please Add Description");
-
-        }else if (date.toLowerCase().contains("select")){
-            Toast.makeText(this, "Select Date", Toast.LENGTH_SHORT).show();
-        }else {
-            Abm.setEvolveBed_Make(date);
-            Abm.setEvolveBed_RFID(bedId);
-            Abm.setEvolveBedSize_ID(bedSizeId);
-            Abm.setEvolveBedType_ID(bedTypeId);
-            Abm.setEvolveBed_Desc(des);
-
-            RetrofitUtil.createProviderAPIV2(this).addBed(Abm).enqueue(bedAdded());
-        }*/
-
-
-
-    }
-
     private Callback<ResponseModel> bedAdded() {
         showProgressDialog();
         return new Callback<ResponseModel>() {

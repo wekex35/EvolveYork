@@ -32,8 +32,19 @@
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:id="@+id/menu_setting"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:src="@drawable/ic_more_vert_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            <TextView
+                android:contentDescription="@string/more_option" />
+
+            <!--<TextView
                 android:text="@string/not_update"
                 android:id="@+id/status"
                 android:layout_width="0dp"
@@ -44,7 +55,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" />-->
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/out"
