@@ -23,7 +23,11 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.alitersolutions.evolveyork.R;
+import com.alitersolutions.evolveyork.activity.BluetoothChatService;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +41,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static com.alitersolutions.evolveyork.activity.BaseActivity.mChatService;
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
@@ -237,6 +242,36 @@ public class AppUtils {
         } catch(Exception e) {
             Log.d(TAG, "objectToContentValues: "+e);
             throw new NullPointerException("content values failed to build");
+        }
+    }
+
+    public static int intJsonreader(JSONObject jsonObject, String what) {
+
+        try {
+            return (int) jsonObject.get(what);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return Integer.parseInt("0");
+        }
+    }
+
+    public static void sendMessage(Context context,String message) {
+        StringBuffer mOutStringBuffer = new StringBuffer("");
+        // Check that we're actually connected before trying anything
+        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+            Toast.makeText(context, R.string.not_connected, Toast.LENGTH_SHORT).show();
+            // return;
+        }
+        Toast.makeText(context,String.valueOf(mChatService.getState()), Toast.LENGTH_SHORT).show();
+
+        // Check that there's actually something to send
+        if (message.length() > 0) {
+            // Get the message bytes and tell the BluetoothChatService to write
+            byte[] send = message.getBytes();
+            mChatService.write(send);
+            // Reset out string buffer to zero and clear the edit text field
+            mOutStringBuffer.setLength(0);
+            //mOutEditText.setText(mOutStringBuffer);
         }
     }
 

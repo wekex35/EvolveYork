@@ -1,18 +1,27 @@
 package com.alitersolutions.evolveyork.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.authenticate.LoginActivity;
+import com.atalay.bluetoothhelper.Model.BluetoothCallback;
+import com.atalay.bluetoothhelper.Provider.BluetoothProvider;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
+import static com.alitersolutions.evolveyork.utils.AppUtils.sendMessage;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
 import static com.alitersolutions.evolveyork.utils.Constants.TOKEN;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
@@ -23,6 +32,8 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
     //private HomeApplicationAdapter homeApplicationAdapter;
     private String TAG = "HomeActivity";
     private Gson gson = new Gson();
+    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+
 
 
     @Override
@@ -33,7 +44,8 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         String BASE_SITE = getStringValue(this,BASEURL);
 
-      //     r_home_applciations = findViewById(R.id.home_applications);
+
+        //     r_home_applciations = findViewById(R.id.home_applications);
 
       //  RetrofitUtil.createProviderAPI().homeAppList().enqueue(setHomeAplicatinList());
 
@@ -112,6 +124,12 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
                 storeStringValue(HomeActivity.this,TOKEN,"");
                 openAcitivtyC(LoginActivity.class);
                 return true;
+            case R.id.secure_connect_scan: {
+                // Launch the BluetoothDeviceListActivity to see devices and do scan
+                Intent serverIntent = new Intent(this, BluetoothDeviceListActivity.class);
+                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                return true;
+            }
             default: return super.onOptionsItemSelected(item);
         }
 
@@ -133,4 +151,19 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         openAcitivty(CycleHistory.class);
 
     }
+
+    public void printLt(View view) {
+      //  printZplTemplate("hello","hello");
+        sendMessage(this,"hrllo");
+
+    }
+
+
+
+
+
+
+
+
+
 }

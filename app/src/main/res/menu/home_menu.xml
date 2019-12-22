@@ -5,6 +5,9 @@
         android:id="@+id/server_setting"
         android:title="@string/server_setting" />
     <item
+        android:id="@+id/secure_connect_scan"
+        android:title="@string/pair_bluetooth" />
+    <item
         android:id="@+id/logout"
         android:title="@string/logout" />
 </menu>

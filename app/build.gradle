@@ -28,6 +28,8 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
+    implementation project(':android-zebra-interface-1.0')
+
     /*Network Libraries*/
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
@@ -41,4 +43,6 @@ dependencies {
 
     /*From Validation*/
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
+    implementation 'com.github.barisatalay:thermalprinterhelper:v1.2.2'
+
 }

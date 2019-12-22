@@ -1,2 +1,2 @@
-include ':app'
+include ':app', ':android-zebra-interface-1.0'
 rootProject.name='Evolve York'

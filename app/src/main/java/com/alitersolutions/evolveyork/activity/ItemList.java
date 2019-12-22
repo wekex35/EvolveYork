@@ -69,8 +69,7 @@ public class ItemList extends BaseActivity implements TextWatcher {
     }
 
     private void loadItems() {
-        String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.items_api_response));
-        masterItems = gson.fromJson(myJson,new TypeToken<List<MasterItems>>(){}.getType());
+        masterItems = gson.fromJson(ItemInfoString,new TypeToken<List<MasterItems>>(){}.getType());
         
         if (masterItems.isEmpty()){
             Toast.makeText(ItemList.this, "Not Available", Toast.LENGTH_SHORT).show();

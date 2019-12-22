@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.http.SslCertificate;
 import android.os.Build;
@@ -51,6 +52,9 @@ import retrofit2.Response;
 
 import static com.alitersolutions.evolveyork.utils.AppUtils.getCurrentTimeStamp;
 import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
+import static com.alitersolutions.evolveyork.utils.Constants.ITEMINFO;
+import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
+import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
 
 public class CycleCountActivity extends BaseActivity implements ZBarScannerView.ResultHandler {
     private String TAG = "CycleCountActivity";
@@ -120,7 +124,12 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
     }
 
     private void loadItems() {
-        String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.items_api_response));
+        String myJson;// = inputStreamToString(this.getResources().openRawResource(R.raw.items_api_response));
+        myJson = getStringValue(this,ITEMINFO);
+        if (myJson.isEmpty()){
+            openAcitivty(ItemList.class);
+            finish();
+        }
         final List<MasterItems> masterItems = gson.fromJson(myJson,new TypeToken<List<MasterItems>>(){}.getType());
 
         final ArrayList<String> LocAdaptList = new ArrayList<>();
@@ -148,8 +157,13 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             }
         });
     }
+
     private void loadLocations() {
-        String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.location_sapi_response));
+        String myJson = getStringValue(this,LOCATIONINFO);
+        if (myJson.isEmpty()){
+            openAcitivty(LocationLists.class);
+            finish();
+        }
         //MasterLocation myModel = new Gson().fromJson(myJson, MasterLocation.class);
         final List<MasterLocation> masterLocations = gson.fromJson(myJson,new TypeToken<List<MasterLocation>>(){}.getType());
 
@@ -435,10 +449,37 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             sentModel.setUploadStatus("NOT SENT");
             if(databaseHelper.insertCycleCount(sentModel) > 0 ){
                 Log.d(TAG, "print: Saved");
+                printZplTemplate("hello","hello");
             }else
                 Log.d(TAG, "print: Not Saved");
 
         }
 
+    }
+    private void printZplTemplate(String barcodeData, String textData){
+        Intent i = new Intent("com.dimagi.android.zebraprinttool.action.PrintTemplate");
+
+        String SINGLE_JOB_KEY = "single_job";
+        ArrayList<String> bundleKeyList = new ArrayList<>();
+        bundleKeyList.add(SINGLE_JOB_KEY);
+
+        i.putExtra("zebra:bundle_list", bundleKeyList);
+        i.putExtra(SINGLE_JOB_KEY, getSinglePrintJob(barcodeData, textData));
+        startActivity(i);
+
+    }
+
+    public Bundle getSinglePrintJob(String barcodeData, String textData) {
+        Bundle printJobParameters = new Bundle();
+        String zebraTemplateFilepath = "/sdcard/download/test.zpl";
+/*
+        printJobParameters.putS("zebra:template_file_path", zebraTemplateFilepath);
+
+        Bundle labelVariableArguments = new Bundle();
+        labelVariableArguments.putString("barcode_data", barcodeData);
+        labelVariableArguments.putString("text_data", textData);
+        printJobParameters.putExtras(labelVariableArguments);*/
+
+        return printJobParameters;
     }
 }
