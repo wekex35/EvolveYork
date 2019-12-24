@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.Retrofit.RetrofitUtil;
+import com.alitersolutions.evolveyork.authenticate.LoginActivity;
 import com.alitersolutions.evolveyork.database.DatabaseHelper;
 import com.alitersolutions.evolveyork.model.BedSizes;
 import com.alitersolutions.evolveyork.model.BedTypes;
@@ -36,13 +37,24 @@ import com.alitersolutions.evolveyork.model.MasterItems;
 import com.alitersolutions.evolveyork.model.MasterLocation;
 import com.alitersolutions.evolveyork.model.ResponseModel;
 import com.alitersolutions.evolveyork.model.SentModel;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
@@ -50,11 +62,21 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.AppUtils.deviceIMEI;
 import static com.alitersolutions.evolveyork.utils.AppUtils.getCurrentTimeStamp;
 import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
+import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
+import static com.alitersolutions.evolveyork.utils.AppUtils.sendMessage;
+import static com.alitersolutions.evolveyork.utils.Constants.EVOLVEUSRID;
+import static com.alitersolutions.evolveyork.utils.Constants.EVOLVEUSRNAME;
 import static com.alitersolutions.evolveyork.utils.Constants.ITEMINFO;
 import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
+import static com.alitersolutions.evolveyork.utils.Constants.USERLOGINDETAILS;
+import static com.alitersolutions.evolveyork.utils.Constants.str;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
+import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
 
 public class CycleCountActivity extends BaseActivity implements ZBarScannerView.ResultHandler {
     private String TAG = "CycleCountActivity";
@@ -67,6 +89,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
     int bedSizeId,bedTypeId;
     int EvolveLocId = 0;
     int EvovlePartId = 0;
+    String itemDescription;
 
     String DLname,DIname;
     Spinner units;
@@ -80,13 +103,14 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cycle_count);
         setTitle("Cycle Count");
-//        if (checkPermission()) {
-//            //startActivity(new Intent(this,BarcodeScanner.class));
-//            //main logic or main code
-//            requestPermission();
-//            // . write your main code to execute, It will execute if the permission is already given.
-//
-//        } else {
+        if (!checkPermission()) {
+            //startActivity(new Intent(this,BarcodeScanner.class));
+            //main logic or main code
+            requestPermission();
+            // . write your main code to execute, It will execute if the permission is already given.
+
+        }
+//        else {
 //            requestPermission();
 //        }
 
@@ -129,33 +153,36 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         if (myJson.isEmpty()){
             openAcitivty(ItemList.class);
             finish();
-        }
-        final List<MasterItems> masterItems = gson.fromJson(myJson,new TypeToken<List<MasterItems>>(){}.getType());
-
-        final ArrayList<String> LocAdaptList = new ArrayList<>();
-        for (MasterItems masterItem: masterItems) {
-            if (masterItem.getEvolveItemPart() != null)
-            LocAdaptList.add(masterItem.getEvolveItemPart().trim());
-            Log.d(TAG, "loadItems: "+masterItem.getEvolveItemPart());
-        }
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, LocAdaptList);
-        spinnerArrayAdapter.setDropDownViewResource(R.layout.autocomplete_item_dropdown_item); // The drop down vieww
-        _itemID.setAdapter(spinnerArrayAdapter);
-
-        _itemID.setThreshold(1);
-
-
-        _itemID.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(TAG, "onItemSelected: "+masterItems.get(position).getEvolveItemDescription());
-                itemDesc.setText(masterItems.get(position).getEvolveItemDescription());
-                EvovlePartId = masterItems.get(position).getEvolveItemID();
-                DIname = masterItems.get(position).getEvolveItemPart();
-                itemDesc.setVisibility(View.VISIBLE);
+        }else {
+            final List<MasterItems> masterItems = gson.fromJson(myJson, new TypeToken<List<MasterItems>>() {
+            }.getType());
+            final ArrayList<String> LocAdaptList = new ArrayList<>();
+            for (MasterItems masterItem : masterItems) {
+                if (masterItem.getEvolveItemPart() != null)
+                    LocAdaptList.add(masterItem.getEvolveItemPart().trim());
+                Log.d(TAG, "loadItems: " + masterItem.getEvolveItemPart());
             }
-        });
+
+            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this, android.R.layout.simple_spinner_item, LocAdaptList);
+            spinnerArrayAdapter.setDropDownViewResource(R.layout.autocomplete_item_dropdown_item); // The drop down vieww
+            _itemID.setAdapter(spinnerArrayAdapter);
+
+            _itemID.setThreshold(1);
+
+
+            _itemID.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.d(TAG, "onItemSelected: " + masterItems.get(position).getEvolveItemDescription());
+                    itemDescription = masterItems.get(position).getEvolveItemDescription();
+
+                    itemDesc.setText(masterItems.get(position).getEvolveItemDescription());
+                    EvovlePartId = masterItems.get(position).getEvolveItemID();
+                    DIname = masterItems.get(position).getEvolveItemPart();
+                    itemDesc.setVisibility(View.VISIBLE);
+                }
+            });
+        }
     }
 
     private void loadLocations() {
@@ -163,27 +190,28 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         if (myJson.isEmpty()){
             openAcitivty(LocationLists.class);
             finish();
-        }
-        //MasterLocation myModel = new Gson().fromJson(myJson, MasterLocation.class);
-        final List<MasterLocation> masterLocations = gson.fromJson(myJson,new TypeToken<List<MasterLocation>>(){}.getType());
+        }else {
+            //MasterLocation myModel = new Gson().fromJson(myJson, MasterLocation.class);
+            final List<MasterLocation> masterLocations = gson.fromJson(myJson, new TypeToken<List<MasterLocation>>() {
+            }.getType());
 
-        ArrayList<String> LocAdaptList = new ArrayList<>();
-        for (MasterLocation masterLocation: masterLocations) {
-            LocAdaptList.add(masterLocation.getEvolveItemLocation().trim());
-        }
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this,android.R.layout.simple_spinner_item, LocAdaptList);
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
-        _loc_id.setAdapter(spinnerArrayAdapter);
-        _loc_id.setThreshold(1);
-        _loc_id.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
-                DLname = masterLocations.get(position).getEvolveItemLocation();
+            ArrayList<String> LocAdaptList = new ArrayList<>();
+            for (MasterLocation masterLocation : masterLocations) {
+                LocAdaptList.add(masterLocation.getEvolveItemLocation().trim());
             }
-        });
 
+            ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this, android.R.layout.simple_spinner_item, LocAdaptList);
+            spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
+            _loc_id.setAdapter(spinnerArrayAdapter);
+            _loc_id.setThreshold(1);
+            _loc_id.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
+                    DLname = masterLocations.get(position).getEvolveItemLocation();
+                }
+            });
+        }
     }
 
     private Callback<ResponseModel> loadSizes() {
@@ -384,7 +412,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         dateTV.setText(sdf.format(myCalendar.getTime()));
     }
 
-    private Callback<ResponseModel> bedAdded() {
+    private Callback<ResponseModel> addData() {
         showProgressDialog();
         return new Callback<ResponseModel>() {
             @Override
@@ -413,15 +441,16 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 
 
        // int itemId = Integer.parseInt(_itemID.getText().toString());
-        String batchNo = _batch_no.getText().toString();
+        final String batchNo = _batch_no.getText().toString();
         int quantity = 0;
         if (!_quantity.getText().toString().isEmpty())
           quantity = Integer.parseInt(_quantity.getText().toString());
-        String remarks = _remarks.getText().toString();
+        final String remarks = _remarks.getText().toString();
        // int loc_id = Integer.parseInt(_loc_id.getText().toString());
-        if (batchNo.isEmpty())
-            showToast("Batch No. cannot be empty");
-        else if (_quantity.getText().toString().isEmpty())
+//        if (batchNo.isEmpty())
+//            showToast("Batch No. cannot be empty");
+//        else
+        if (_quantity.getText().toString().isEmpty())
             showToast("Qunatity cannot be empty");
         else if (remarks.isEmpty())
             showToast("Remarks cannot be empty");
@@ -430,7 +459,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         else if (_loc_id.getText().toString().isEmpty())
             showToast("Select Valid Location");
         else {
-            SentModel sentModel = new SentModel();
+            final SentModel sentModel = new SentModel();
 
             sentModel.setEvolveItemID(EvovlePartId);
             sentModel.setEvolveBatchNo(batchNo);
@@ -440,46 +469,102 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             sentModel.setEvolveItemMeasuringUnits(units.getSelectedItem().toString());
 
             Log.d(TAG, "print: " + gson.toJson(sentModel));
-            RetrofitUtil.createProviderAPI().sentToServer(sentModel).enqueue(bedAdded());
+            if (BASE_SITE.length() > 5) {
+                showProgressDialog("Uploading...");
+                final int finalQuantity = quantity;
+                String url = BASE_URL+"Items_API/update_item_history";
+                StringRequest putRequest = new StringRequest(Request.Method.POST, url,
+                        new com.android.volley.Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("Response", response);
+                                hideProgressDialog();
+                                ResponseModel responseModel = gson.fromJson(response,ResponseModel.class);
+                                if ( responseModel.getError().contains("false")) {
+                                    Toast.makeText(CycleCountActivity.this, "Updated", Toast.LENGTH_SHORT).show();
+                                _batch_no.setText("");
+                                _itemID.setText("");
+                                _loc_id.setText("");
+                                _quantity.setText("");
+                                _remarks.setText("");
+                                itemDesc.setVisibility(View.GONE);
+
+                                }else {
+                                    showToast("Not Added");
+                                }
+                            }
+                        }, new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        showToast("Server Not Connected");
+                        hideProgressDialog();
+                    }
+                }
+                ) {
+
+                    @Override
+                    protected Map<String, String> getParams()
+                    {
+                        Map<String, String>  params = new HashMap<String, String>();
+                        params.put("EvolveBatchNo", batchNo);
+                        params.put("EvolveItemID", String.valueOf(EvovlePartId));
+                        params.put("EvolveItemLocationID", String.valueOf(EvolveLocId));
+                        params.put("EvolveItemMeasuringUnits", units.getSelectedItem().toString());
+                        params.put("EvolveItemHistoryRemark", remarks);
+                        params.put("EvolveItemQty", String.valueOf(finalQuantity));
+                        params.put("EvolveItemDescription", itemDescription);
+                        params.put("EvolveUsr_ID", getStringValue(CycleCountActivity.this,EVOLVEUSRID));
+                        params.put("EvolveItemHistoryMacAddress", getStringValue(CycleCountActivity.this,deviceIMEI));
+                        Log.d(TAG, "getParams: "+params.toString());
+                        return params;
+                    }
+
+                };
+                RequestQueue queue = Volley.newRequestQueue(this);
+                queue.add(putRequest);
+            }else {
+                saveServerInfo(CycleCountActivity.this);
+            }
+
+
             DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
             sentModel.setEvolveLocationName(DLname);
             sentModel.setEvolveItemName(DIname);
             sentModel.setUpdatedDate(getCurrentTimeStamp());
-            sentModel.setUploadStatus("NOT SENT");
+            sentModel.setUploadStatus("1");
+
+            String QRText = "PART ID :"+DIname+str
+                    +"LOC ID : "+DLname+str
+                    +"DES : "+itemDescription;
+
             if(databaseHelper.insertCycleCount(sentModel) > 0 ){
-                Log.d(TAG, "print: Saved");
-                printZplTemplate("hello","hello");
+                String sb2 = "! 0 200 200 424 1"+str
+                        +"IN-DOTS"+str
+                        +"B QR 455 5 M 2 U 3"+str
+                        +"MA,QR code "+QRText+" "+ str
+                        +"ENDQR"+str
+                        +"CENTER"+str
+//                +"UNDERLINE OFF"+str
+                        +"TEXT 4 0 20 10 Stock Tracking"+str
+//                +"UNDERLINE ON"+str
+                        +"LEFT"+str
+                        +"TEXT 5 0 20 80 ITEM CODE : "+DIname+str
+                        +"TEXT 7 0 20 110 DESC : "+itemDescription+str
+                        +"TEXT 5 0 20 150 QTY : "+quantity+" "+units+str
+//                +"RIGHT"+str
+                        +"TEXT 5 0 240 150 LOCATION : "+DLname+str
+//                +"LEFT"+str
+                        +"TEXT 5 0 20 190 STOCK DATE : "+date+str
+                        +"TEXT 5 0 20 230 STOCK TAKEN : "+" User "+str
+                        +"PRINT"+str;
+                sendMessage(this,sb2);
             }else
                 Log.d(TAG, "print: Not Saved");
 
         }
 
     }
-    private void printZplTemplate(String barcodeData, String textData){
-        Intent i = new Intent("com.dimagi.android.zebraprinttool.action.PrintTemplate");
 
-        String SINGLE_JOB_KEY = "single_job";
-        ArrayList<String> bundleKeyList = new ArrayList<>();
-        bundleKeyList.add(SINGLE_JOB_KEY);
 
-        i.putExtra("zebra:bundle_list", bundleKeyList);
-        i.putExtra(SINGLE_JOB_KEY, getSinglePrintJob(barcodeData, textData));
-        startActivity(i);
-
-    }
-
-    public Bundle getSinglePrintJob(String barcodeData, String textData) {
-        Bundle printJobParameters = new Bundle();
-        String zebraTemplateFilepath = "/sdcard/download/test.zpl";
-/*
-        printJobParameters.putS("zebra:template_file_path", zebraTemplateFilepath);
-
-        Bundle labelVariableArguments = new Bundle();
-        labelVariableArguments.putString("barcode_data", barcodeData);
-        labelVariableArguments.putString("text_data", textData);
-        printJobParameters.putExtras(labelVariableArguments);*/
-
-        return printJobParameters;
-    }
 }

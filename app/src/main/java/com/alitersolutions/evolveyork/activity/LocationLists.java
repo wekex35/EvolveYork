@@ -25,6 +25,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.FAILURE;
 import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
@@ -62,7 +65,11 @@ public class LocationLists extends BaseActivity implements TextWatcher {
     }
 
     private void getLocationList() {
-        RetrofitUtil.createProviderAPI().getAllLocation().enqueue(LoadLocationList());
+        if (BASE_SITE.length() > 5) {
+            RetrofitUtil.createProviderAPI().getAllLocation().enqueue(LoadLocationList());
+        }else {
+            saveServerInfo(LocationLists.this);
+        }
     }
     private void loadItems() {
        // String myJson= inputStreamToString(this.getResources().openRawResource(R.raw.location_sapi_response));
@@ -98,6 +105,7 @@ public class LocationLists extends BaseActivity implements TextWatcher {
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 hideProgressDialog();
                 logError(TAG,FAILURE);
+                showToast("Server Not Connected");
             }
         };
     }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="measuring_units">
+        <item>EA</item>
         <item>UM</item>
         <item>CM</item>
-        <item>EA</item>
         <item>FT</item>
         <item>G</item>
         <item>IN</item>

@@ -1,7 +1,13 @@
 package com.alitersolutions.evolveyork.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,12 +16,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.authenticate.LoginActivity;
-import com.atalay.bluetoothhelper.Model.BluetoothCallback;
-import com.atalay.bluetoothhelper.Provider.BluetoothProvider;
+import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -43,67 +51,8 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         String BASE_SITE = getStringValue(this,BASEURL);
-
-
-        //     r_home_applciations = findViewById(R.id.home_applications);
-
-      //  RetrofitUtil.createProviderAPI().homeAppList().enqueue(setHomeAplicatinList());
-
+        CheckPermissionAndStartIntent();
     }
-
-
-
-    public void getBed(View view) {
-        openAcitivty(ItemList.class);
-    }
-/*
-    private Callback<ResponseModel> setHomeAplicatinList() {
-        showProgressDialog("Loading...");
-        return  new Callback<ResponseModel>() {
-            @Override
-            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                Log.d(TAG, "onResponse: "+response.body().getEvolveToken());
-                if ( response.body().getResult() != null) {
-
-                    String js = gson.toJson(response.body().getResult());
-
-                    ArrayList<HomeApplicationModel> list = (ArrayList<HomeApplicationModel>) gson.fromJson(js,
-                            new TypeToken<ArrayList<HomeApplicationModel>>() {
-                            }.getType());
-
-                    Log.d(TAG, "onResponse: "+list.get(1).getEvolveApp_Code());
-                    setHomeApplications(list);
-                    hideProgressDialog();
-                   *//* List<HomeApplicationModel> list = gson.fromJson(js,List<HomeApplicationModel>);
-                    openAcitivty(MainActivity.class);
-                    hideProgressDialog();*//*
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseModel> call, Throwable t) {
-                hideProgressDialog();
-                Log.d(TAG, "onFailure: "+t.getCause());
-            }
-        };
-    }
-
-
-    private void setHomeApplications(ArrayList<HomeApplicationModel> list) {
-        int numberOfColumns = 2;
-        r_home_applciations.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
-        homeApplicationAdapter = new HomeApplicationAdapter(this, list);
-        homeApplicationAdapter.setClickListener(this);
-        r_home_applciations.setAdapter(homeApplicationAdapter);
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-        Log.i("TAG", "You clicked number " + homeApplicationAdapter.getItem(position).getEvolveApp_Name().toLowerCase() + ", which is at cell position " + position);
-        if (homeApplicationAdapter.getItem(position).getEvolveApp_Code().toLowerCase().contains("eapprovals")){
-            startActivity(new Intent(HomeActivity.this, KonnectDevices.class));
-        }
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,16 +103,57 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
 
     public void printLt(View view) {
       //  printZplTemplate("hello","hello");
-        sendMessage(this,"hrllo");
+        sendMessage(this,"hello");
 
     }
 
+    private void CheckPermissionAndStartIntent() {
+        if (ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(HomeActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+            //SEY SOMTHING LIKE YOU CANT ACCESS WITHOUT PERMISSION
+        } else {
+            doSomthing();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    doSomthing();
+                } else if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    //SEY SOMTHING LIKE YOU CANT ACCESS WITHOUT PERMISSION
+                    //you can show something to user and open setting -> apps -> youApp -> permission
+                    // or unComment below code to show permissionRequest Again
+                    //ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+                }
+            }
+        }
+    }
 
 
+    public  void doSomthing() {
+        AppUtils.deviceIMEI = getDeviceIMEI(HomeActivity.this);
+        //andGoToYourNextStep
+    }
 
+    @SuppressLint("HardwareIds")
+    public static String getDeviceIMEI(Activity activity) {
 
-
-
+        String deviceUniqueIdentifier = null;
+        TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        if (null != tm) {
+            if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
+            else
+                deviceUniqueIdentifier = tm.getDeviceId();
+            if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length())
+                deviceUniqueIdentifier = "0";
+        }
+        return deviceUniqueIdentifier;
+    }
 
 
 }

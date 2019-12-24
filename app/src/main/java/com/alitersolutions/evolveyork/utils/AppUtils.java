@@ -12,6 +12,8 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.provider.Settings;
+import android.telephony.TelephonyManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import androidx.annotation.Nullable;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.activity.BluetoothChatService;
+import com.alitersolutions.evolveyork.model.SentModel;
 import com.google.gson.annotations.SerializedName;
 
 import org.json.JSONException;
@@ -41,7 +44,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.alitersolutions.evolveyork.activity.BaseActivity.mChatService;
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
 import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
@@ -50,10 +52,12 @@ import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStr
 import static java.lang.System.in;
 
 public class AppUtils {
+    public static BluetoothChatService mChatService = null;
 
     private static final String EMPTY_STRING = "";
     private static String TAG = "AppUtils";
     public static String HASHKEY;
+    public static String deviceIMEI;
 
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -255,8 +259,42 @@ public class AppUtils {
         }
     }
 
+
     public static void sendMessage(Context context,String message) {
-        StringBuffer mOutStringBuffer = new StringBuffer("");
+     /*   String str = "\r\n";
+        String ItemCode = "327yfuygf";
+        String desc = "327yfuygf";
+        String qty = "500";
+        String units = "cms";
+        String loc = "SSU256";
+        String date = "2019-12-23 15:50:54";
+        String take_by = "2019-12-23 15:50:54";
+
+       // String obj = ((EditText) ViewTextPrinterActivity2.this.findViewById(C0340R.C0342id.textoCPCL)).getText().toString();
+
+
+        String sb2 = "! 0 200 200 424 1"+str
+                +"IN-DOTS"+str
+                +"B QR 455 5 M 2 U 3"+str
+                +"MA,QR code Lorem ipsum, or lipsum as it is sometimes k "+str
+                +"ENDQR"+str
+                +"CENTER"+str
+//                +"UNDERLINE OFF"+str
+                +"TEXT 4 0 20 10 Stock Tracking"+str
+//                +"UNDERLINE ON"+str
+                +"LEFT"+str
+                +"TEXT 5 0 20 80 ITEM CODE : "+ItemCode+str
+                +"TEXT 7 0 20 110 DESC : "+desc+str
+                +"TEXT 5 0 20 150 QTY : "+qty+" "+units+str
+//                +"RIGHT"+str
+                +"TEXT 5 0 240 150 LOCATION : "+loc+str
+//                +"LEFT"+str
+                +"TEXT 5 0 20 190 STOCK DATE : "+date+str
+                +"TEXT 5 0 20 230 STOCK TAKEN : "+take_by+str
+                +"PRINT"+str;
+        message = sb2;*/
+
+       // StringBuffer mOutStringBuffer = new StringBuffer("");
         // Check that we're actually connected before trying anything
         if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
             Toast.makeText(context, R.string.not_connected, Toast.LENGTH_SHORT).show();
@@ -270,7 +308,7 @@ public class AppUtils {
             byte[] send = message.getBytes();
             mChatService.write(send);
             // Reset out string buffer to zero and clear the edit text field
-            mOutStringBuffer.setLength(0);
+            //mOutStringBuffer.setLength(0);
             //mOutEditText.setText(mOutStringBuffer);
         }
     }

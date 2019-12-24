@@ -11,6 +11,14 @@ public class UserModel implements Serializable {
     @Expose
     String UserEmail;
 
+    @SerializedName("EvolveUserEmail")
+    @Expose
+    String EvolveUserEmail;
+
+    @SerializedName("EvolveUserPassword")
+    @Expose
+    String EvolveUserPassword;
+
     @SerializedName("EvolveUser_password")
     @Expose
     String UserPassword;
@@ -22,6 +30,10 @@ public class UserModel implements Serializable {
     @SerializedName("EvolveUser_Name")
     @Expose
     String EvolveUserName;
+
+    @SerializedName("EvolveUsr_Name")
+    @Expose
+    String EvolveUsr_Name;
 
     @SerializedName("EvolveUser_ID")
     @Expose
@@ -65,5 +77,21 @@ public class UserModel implements Serializable {
 
     public void setEvolveUserID(String evolveUserID) {
         EvolveUserID = evolveUserID;
+    }
+
+    public String getEvolveUserEmail() {
+        return EvolveUserEmail;
+    }
+
+    public void setEvolveUserEmail(String evolveUserEmail) {
+        EvolveUserEmail = evolveUserEmail;
+    }
+
+    public String getEvolveUserPassword() {
+        return EvolveUserPassword;
+    }
+
+    public void setEvolveUserPassword(String evolveUserPassword) {
+        EvolveUserPassword = evolveUserPassword;
     }
 }

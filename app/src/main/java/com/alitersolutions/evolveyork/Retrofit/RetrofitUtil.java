@@ -170,8 +170,11 @@ public class RetrofitUtil {
         OkHttpClient client = builder.build();
 
         Retrofit retrofit =
-                new Retrofit.Builder().baseUrl(BASE_URL).client(client).
-                        addConverterFactory(GsonConverterFactory.create(gson)).build();
+                new Retrofit.Builder().baseUrl(BASE_URL)
+                        .client(client)
+                        .client(client)
+                        .addConverterFactory(GsonConverterFactory.create(gson))
+                        .build();
 
         return retrofit.create(ProviderApi.class);
     }

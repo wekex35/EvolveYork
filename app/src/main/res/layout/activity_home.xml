@@ -207,7 +207,7 @@
             android:layout_columnWeight="@integer/viewfinder_border_length"
             android:layout_margin="@dimen/dp_5"
             android:background="@drawable/edittext_bg"
-
+            android:visibility="gone"
             android:elevation="@dimen/elevate"
             android:padding="@dimen/dp_10"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -64,7 +64,7 @@
             style="@style/editText_margin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress" />
+            android:inputType="number" />
 
 
         <EditText

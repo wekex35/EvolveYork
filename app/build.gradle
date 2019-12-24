@@ -44,5 +44,7 @@ dependencies {
     /*From Validation*/
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
     implementation 'com.github.barisatalay:thermalprinterhelper:v1.2.2'
+    implementation 'com.android.volley:volley:1.1.1'
+
 
 }

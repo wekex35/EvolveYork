@@ -42,6 +42,11 @@ public class ResponseModel implements Serializable {
     @SerializedName("Locations")
     private Object Locations;
 
+
+    @Expose
+    @SerializedName("data")
+    private Object data;
+
     public String getStatus() {
         return status;
     }
@@ -112,5 +117,13 @@ public class ResponseModel implements Serializable {
 
     public void setLocations(Object locations) {
         Locations = locations;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
+        this.data = data;
     }
 }

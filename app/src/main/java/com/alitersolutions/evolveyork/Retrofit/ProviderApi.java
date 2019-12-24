@@ -9,6 +9,7 @@ import com.alitersolutions.evolveyork.model.UserModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -26,19 +27,18 @@ public interface ProviderApi {
 //        String BASE_SITE = "http://192.168.1.102/aliter/";
 
 
-        @GET("get_all_location")
+        @GET("Items_API/get_all_location")
         Call<ResponseModel> getAllLocation();
 
-        @GET("get_all_item")
+        @GET("Items_API/get_all_item")
         Call<ResponseModel> getallItems();
 
-        @GET("getBedsList")
-        Call<ResponseModel> getBedList();
-
-        @POST("update_item_history")
+        @POST("Items_API/update_item_history")
         Call<ResponseModel>  sentToServer(@Body SentModel sentModel);
 
-
+//        @Headers({"Content-Type: application/x-www-form-urlencoded"})
+        @POST("API/user/login")
+        Call<ResponseModel> loginUser(@Body UserModel userModel);
 
 
        /* @GET("appMenuList")
@@ -95,8 +95,6 @@ public interface ProviderApi {
         @POST("providers")
         Call<User> registerUser(@Body RegisterBusiness post);
 
-        @POST("user/login")
-        Call<User> loginUser(@Body LoginData post);
 
         @GET("user/profile/{user_id}")
         Call<ProviderModel> getUserProfile(@Path("user_id") int userid);

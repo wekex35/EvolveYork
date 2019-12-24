@@ -31,7 +31,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
+import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
+import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.FAILURE;
 import static com.alitersolutions.evolveyork.utils.Constants.ITEMINFO;
 import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
@@ -83,7 +86,13 @@ public class ItemList extends BaseActivity implements TextWatcher {
     }
 
     private void getItemsList() {
-        RetrofitUtil.createProviderAPI().getallItems().enqueue(LoadItemList());
+        Log.d(TAG, "getItemsList: "+BASE_URL);
+        if (BASE_SITE.length() > 5) {
+            RetrofitUtil.createProviderAPI().getallItems().enqueue(LoadItemList());
+        }else {
+            saveServerInfo(ItemList.this);
+        }
+
     }
     
     private Callback<ResponseModel> LoadItemList() {
@@ -106,6 +115,7 @@ public class ItemList extends BaseActivity implements TextWatcher {
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 hideProgressDialog();
+                showToast("Server Not Connected");
                 logError(TAG,FAILURE);
             }
         };
