@@ -32,6 +32,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import com.alitersolutions.evolveyork.R;
+import com.alitersolutions.evolveyork.Retrofit.RetrofitUtil;
+import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.alitersolutions.evolveyork.utils.Constants;
 import com.google.gson.Gson;
 
@@ -41,6 +43,7 @@ import org.json.JSONObject;
 import java.util.Set;
 
 import static com.alitersolutions.evolveyork.utils.AppUtils.intJsonreader;
+import static com.alitersolutions.evolveyork.utils.AppUtils.mChatService;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -61,7 +64,6 @@ public class BaseActivity extends AppCompatActivity {
 
         setActionBar();
         intiBuletooh();
-
 //        getHashKey(this);
     }
 
@@ -127,45 +129,6 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-  /*  @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(
-                R.anim.no_anim, R.anim.slide_right_out);
-        AppUtils.hideSoftKeyboard(this);
-    }*/
- /*
-  protected void openAcitivty(Intent intent2, Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        if (intent2 != null) {
-            intent = intent2;
-            intent.setClass(this, cls);
-        }
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
-    protected void openAcitivty(Bundle bundle, Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        intent.putExtra(Constants.DATA, bundle);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
-    protected void openAcitivty(ArrayList<String> categories, Class<?> cls, int code, String title, String seletectedItem) {
-        Intent newIntent = new Intent(this, cls);
-        newIntent.putStringArrayListExtra(Constants.DATA, categories);
-        newIntent.putExtra(Constants.TITLE, title);
-        newIntent.putExtra(Constants.SELECTED_ITEM,seletectedItem);
-        startActivityForResult(newIntent, code);
-    }
-
-    protected void openActivityForResult(Class<?> cls) {
-        Intent intent = new Intent(this, cls);
-        intent.putExtra(Constants.IS_RESULT_ACTIVITY, true);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(intent, Constants.REQUEST_KEY_LOGIN);
-    }*/
 
     private void setStatus(CharSequence subTitle) {
         setTitle(subTitle);
@@ -179,7 +142,7 @@ public class BaseActivity extends AppCompatActivity {
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
     private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
     private static final int REQUEST_ENABLE_BT = 3;
-    public static BluetoothChatService mChatService = null;
+
     private String mConnectedDeviceName = null;
     Dialog dialog;
     private static String address;
@@ -190,17 +153,20 @@ public class BaseActivity extends AppCompatActivity {
         super.onStart();
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
-        if (!mBluetoothAdapter.isEnabled()) {
+       /* if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
-        }
+        }*/
     }
 
     public void intiBuletooh() {
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        mChatService = new BluetoothChatService(getBaseContext());
-        mChatService.start();
+        if (mChatService == null) {
+            mChatService = new BluetoothChatService(getBaseContext());
+            if (mBluetoothAdapter != null)
+                mChatService.start();
+        }
 
         // If the adapter is null, then Bluetooth is not supported
 
@@ -320,17 +286,14 @@ public class BaseActivity extends AppCompatActivity {
 //                Toast.makeText(MainActivity.this, StringJsonreader(jsonObject, "msg"),ast.LENGTH_SHORT).show();
 
 //                break;
-
         }
-
-
     }
+
 
 
     @Override
     public void onResume() {
         super.onResume();
-
         registerReceiver(broadcastReceiver, new IntentFilter(BluetoothChatService.BROADCAST_ACTION));
     }
 

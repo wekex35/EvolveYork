@@ -54,7 +54,7 @@ public class ItemList extends BaseActivity implements TextWatcher {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_list);
-        setTitle(R.string.axle_list);
+        setTitle(R.string.item_list);
         initView();
         //loadItems();
        // getbedList();
