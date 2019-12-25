@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="@string/item_id"
+            android:hint="@string/location_id"
             android:inputType="textEmailAddress" />
 
         <ImageView

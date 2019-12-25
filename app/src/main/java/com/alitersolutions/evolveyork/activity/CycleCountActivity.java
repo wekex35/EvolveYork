@@ -14,6 +14,9 @@ import android.net.http.SslCertificate;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -29,6 +32,7 @@ import android.widget.Toast;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.Retrofit.RetrofitUtil;
+import com.alitersolutions.evolveyork.adapter.CycleHistoryAdapter;
 import com.alitersolutions.evolveyork.authenticate.LoginActivity;
 import com.alitersolutions.evolveyork.database.DatabaseHelper;
 import com.alitersolutions.evolveyork.model.BedSizes;
@@ -62,8 +66,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.deviceIMEI;
 import static com.alitersolutions.evolveyork.utils.AppUtils.getCurrentTimeStamp;
 import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
@@ -460,6 +464,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             showToast("Select Valid Location");
         else {
             final SentModel sentModel = new SentModel();
+            DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
             sentModel.setEvolveItemID(EvovlePartId);
             sentModel.setEvolveBatchNo(batchNo);
@@ -467,8 +472,41 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             sentModel.setEvolveItemRemarks(remarks);
             sentModel.setEvolveItemLocationID(EvolveLocId);
             sentModel.setEvolveItemMeasuringUnits(units.getSelectedItem().toString());
+            sentModel.setEvolveLocationName(DLname);
+            sentModel.setEvolveItemName(DIname);
+            sentModel.setUpdatedDate(getCurrentTimeStamp());
+            sentModel.setUploadStatus("1");
+            sentModel.setUploadStatus("1");
 
-            Log.d(TAG, "print: " + gson.toJson(sentModel));
+            String QRText = "PART ID :"+DIname
+                    +"\n LOC ID : "+DLname
+                    +"\n DES : "+itemDescription;
+
+            final String sb2 = "! 0 200 200 424 1"+str
+                    +"IN-DOTS"+str
+                    +"B QR 455 5 M 2 U 3"+str
+                    +"MA, "+QRText+" "+ str
+                    +"ENDQR"+str
+                    +"CENTER"+str
+//                +"UNDERLINE OFF"+str
+                    +"TEXT 4 0 20 15 Stock Tracking"+str
+//                +"UNDERLINE ON"+str
+                    +"LEFT"+str
+                    +"TEXT 5 0 20 90 ITEM CODE : "+DIname+str
+                    +"TEXT 7 0 20 120 DESC : "+itemDescription+str
+                    +"TEXT 5 0 20 170 QTY : "+quantity+" "+units.getSelectedItem().toString()+str
+//                +"RIGHT"+str
+                    +"TEXT 5 0 240 170 LOCATION : "+DLname+str
+//                +"LEFT"+str
+                    +"TEXT 5 0 20 200 STOCK DATE : "+getCurrentTimeStamp()+str
+                    +"TEXT 5 0 20 250 STOCK TAKEN : "+" User "+str
+                    +"PRINT"+str;
+            sentModel.setPrinterText(sb2);
+
+            Log.d(TAG, "print: "+sb2);
+
+            if(databaseHelper.insertCycleCount(sentModel) > 0 ){
+
             if (BASE_SITE.length() > 5) {
                 showProgressDialog("Uploading...");
                 final int finalQuantity = quantity;
@@ -479,16 +517,16 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
                             public void onResponse(String response) {
                                 Log.d("Response", response);
                                 hideProgressDialog();
+                                sendMessage(CycleCountActivity.this,sb2);//Send Message to the printer
                                 ResponseModel responseModel = gson.fromJson(response,ResponseModel.class);
                                 if ( responseModel.getError().contains("false")) {
-                                    Toast.makeText(CycleCountActivity.this, "Updated", Toast.LENGTH_SHORT).show();
-                                _batch_no.setText("");
-                                _itemID.setText("");
-                                _loc_id.setText("");
-                                _quantity.setText("");
-                                _remarks.setText("");
-                                itemDesc.setVisibility(View.GONE);
-
+                                    Toast.makeText(CycleCountActivity.this, "Updated to Server", Toast.LENGTH_SHORT).show();
+                                    _batch_no.setText("");
+                                    _itemID.setText("");
+                                    _loc_id.setText("");
+                                    _quantity.setText("");
+                                    _remarks.setText("");
+                                    itemDesc.setVisibility(View.GONE);
                                 }else {
                                     showToast("Not Added");
                                 }
@@ -525,46 +563,42 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             }else {
                 saveServerInfo(CycleCountActivity.this);
             }
-
-
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
-
-            sentModel.setEvolveLocationName(DLname);
-            sentModel.setEvolveItemName(DIname);
-            sentModel.setUpdatedDate(getCurrentTimeStamp());
-            sentModel.setUploadStatus("1");
-
-            String QRText = "PART ID :"+DIname+str
-                    +"LOC ID : "+DLname+str
-                    +"DES : "+itemDescription;
-
-            if(databaseHelper.insertCycleCount(sentModel) > 0 ){
-                String sb2 = "! 0 200 200 424 1"+str
-                        +"IN-DOTS"+str
-                        +"B QR 455 5 M 2 U 3"+str
-                        +"MA,QR code "+QRText+" "+ str
-                        +"ENDQR"+str
-                        +"CENTER"+str
-//                +"UNDERLINE OFF"+str
-                        +"TEXT 4 0 20 10 Stock Tracking"+str
-//                +"UNDERLINE ON"+str
-                        +"LEFT"+str
-                        +"TEXT 5 0 20 80 ITEM CODE : "+DIname+str
-                        +"TEXT 7 0 20 110 DESC : "+itemDescription+str
-                        +"TEXT 5 0 20 150 QTY : "+quantity+" "+units+str
-//                +"RIGHT"+str
-                        +"TEXT 5 0 240 150 LOCATION : "+DLname+str
-//                +"LEFT"+str
-                        +"TEXT 5 0 20 190 STOCK DATE : "+date+str
-                        +"TEXT 5 0 20 230 STOCK TAKEN : "+" User "+str
-                        +"PRINT"+str;
-                sendMessage(this,sb2);
             }else
-                Log.d(TAG, "print: Not Saved");
+                Log.d(TAG, "Print: Not Saved");
+
+            Log.d(TAG, "print: " + gson.toJson(sentModel));
+
+
+
 
         }
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.cycle_count_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()){
+            case R.id.show_history :
+                saveServerInfo(CycleCountActivity.this);
+                return true;
+
+            case R.id.server_setting :
+                openAcitivty(CycleHistoryAdapter.class);
+                return true;
+
+            default: return super.onOptionsItemSelected(item);
+        }
+
+    }
+
 
 
 }

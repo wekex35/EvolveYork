@@ -31,13 +31,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
-import static com.alitersolutions.evolveyork.utils.AppUtils.inputStreamToString;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.FAILURE;
 import static com.alitersolutions.evolveyork.utils.Constants.ITEMINFO;
-import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
 
@@ -115,7 +113,7 @@ public class ItemList extends BaseActivity implements TextWatcher {
             @Override
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 hideProgressDialog();
-                showToast("Server Not Connected");
+                showToast("Server is not reachable");
                 logError(TAG,FAILURE);
             }
         };

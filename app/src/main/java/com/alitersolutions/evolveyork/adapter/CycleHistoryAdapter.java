@@ -27,6 +27,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.alitersolutions.evolveyork.utils.AppUtils.sendMessage;
+
 
 public class CycleHistoryAdapter extends RecyclerView.Adapter<CycleHistoryAdapter.CHAViewHolder> {
     ArrayList<SentModel> sentModel;
@@ -79,7 +81,7 @@ public class CycleHistoryAdapter extends RecyclerView.Adapter<CycleHistoryAdapte
            menu_setting.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   device_menu_list(v,sentModel);
+                   reprint(sentModel.getPrinterText());
                }
            });
 
@@ -92,6 +94,10 @@ public class CycleHistoryAdapter extends RecyclerView.Adapter<CycleHistoryAdapte
                 }
             });*/
         }
+    }
+
+    private void reprint(String printerText) {
+        sendMessage(context,printerText);
     }
 
 
@@ -110,11 +116,11 @@ public class CycleHistoryAdapter extends RecyclerView.Adapter<CycleHistoryAdapte
                     case R.id.reprint :
                         Log.d(TAG, "Print ");
                         break;
-                    case R.id.upload :
+                 /*   case R.id.upload :
                         Log.d(TAG, "Upload");
                         RetrofitUtil.createProviderAPI().sentToServer(sentModel).enqueue(uploadToserver());
 
-                        break;
+                        break;*/
                 }
 
                 return true;

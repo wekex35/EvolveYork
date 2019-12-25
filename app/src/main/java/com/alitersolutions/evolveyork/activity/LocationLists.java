@@ -25,8 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.FAILURE;
 import static com.alitersolutions.evolveyork.utils.Constants.LOCATIONINFO;
@@ -105,7 +104,7 @@ public class LocationLists extends BaseActivity implements TextWatcher {
             public void onFailure(Call<ResponseModel> call, Throwable t) {
                 hideProgressDialog();
                 logError(TAG,FAILURE);
-                showToast("Server Not Connected");
+                showToast("Server is not reachable");
             }
         };
     }

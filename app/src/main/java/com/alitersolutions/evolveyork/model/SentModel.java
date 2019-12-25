@@ -44,6 +44,10 @@ public class SentModel {
     @SerializedName("UploadStatus")
     private String UploadStatus;
 
+    @Expose
+    @SerializedName("PrinterText")
+    private String PrinterText;
+
     public String getEvolveItemRemarks() {
         return EvolveItemRemarks;
     }
@@ -122,5 +126,13 @@ public class SentModel {
 
     public void setUploadStatus(String uploadStatus) {
         UploadStatus = uploadStatus;
+    }
+
+    public String getPrinterText() {
+        return PrinterText;
+    }
+
+    public void setPrinterText(String printerText) {
+        PrinterText = printerText;
     }
 }

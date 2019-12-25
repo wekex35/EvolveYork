@@ -40,6 +40,7 @@ public class DatabaseHelper {
         values.put("EvolveItemQty",sentModel.getEvolveItemQty());
         values.put("EvolveItemName",sentModel.getEvolveItemName());
         values.put("UploadStatus",sentModel.getUploadStatus());
+        values.put("PrinterText",sentModel.getPrinterText());
         Log.d("", "insertCycleCount: "+values.toString());
         return database.insert(TB_COUNTCYCLE, null, values);
 
@@ -50,7 +51,7 @@ public class DatabaseHelper {
 //        ContentValues cv = AppUtils.objectToContentValues(sentModel);
         database = baseDatabase.getReadableDatabase();
 
-        Cursor cursor =  database.rawQuery("SELECT * FROM "+TB_COUNTCYCLE,null);
+        Cursor cursor =  database.rawQuery("SELECT * FROM "+TB_COUNTCYCLE+" ORDER BY _id DESC",null);
 
         Gson gson = new Gson();
         ArrayList<Map> list = new ArrayList<>();

@@ -3,6 +3,7 @@ package com.alitersolutions.evolveyork.activity;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -28,6 +29,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
+import static com.alitersolutions.evolveyork.utils.AppUtils.deviceIMEI;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.AppUtils.sendMessage;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
@@ -75,8 +77,15 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
                 return true;
             case R.id.secure_connect_scan: {
                 // Launch the BluetoothDeviceListActivity to see devices and do scan
-                Intent serverIntent = new Intent(this, BluetoothDeviceListActivity.class);
-                startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
+                if (!mBluetoothAdapter.isEnabled()) {
+                    Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                    startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+                    // Otherwise, setup the chat session
+                }else {
+                    selectbluetooth();
+                }
+
+
                 return true;
             }
             default: return super.onOptionsItemSelected(item);
@@ -136,6 +145,7 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
 
     public  void doSomthing() {
         AppUtils.deviceIMEI = getDeviceIMEI(HomeActivity.this);
+        Log.d(TAG, "doSomthing: "+deviceIMEI);
         //andGoToYourNextStep
     }
 
@@ -153,6 +163,42 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
                 deviceUniqueIdentifier = "0";
         }
         return deviceUniqueIdentifier;
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CONNECT_DEVICE_SECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, true);
+                }
+                break;
+            case REQUEST_CONNECT_DEVICE_INSECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                    connectDevice(data, false);
+                }
+                break;
+            case REQUEST_ENABLE_BT:
+                // When the request to enable Bluetooth returns
+                if (resultCode == Activity.RESULT_OK) {
+                    // Bluetooth is now enabled, so set up a chat session
+                    selectbluetooth();
+                } else {
+                    // User did not enable Bluetooth or an error occurred
+                    Log.d(TAG, "onActivityResult: ");
+                    Toast.makeText(this, "Turn on bluetooth",
+                            Toast.LENGTH_SHORT).show();
+//                    finish();
+                }
+        }
+    }
+
+    private void selectbluetooth() {
+        intiBuletooh();
+        Intent serverIntent = new Intent(this, BluetoothDeviceListActivity.class);
+        startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE_SECURE);
     }
 
 

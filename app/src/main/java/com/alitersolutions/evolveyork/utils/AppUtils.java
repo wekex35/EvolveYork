@@ -44,8 +44,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
@@ -58,6 +56,8 @@ public class AppUtils {
     private static String TAG = "AppUtils";
     public static String HASHKEY;
     public static String deviceIMEI;
+    public static String BASE_SITE;
+    public static String BASE_URL;
 
 
     public static void hideSoftKeyboard(Activity activity) {
@@ -296,20 +296,24 @@ public class AppUtils {
 
        // StringBuffer mOutStringBuffer = new StringBuffer("");
         // Check that we're actually connected before trying anything
-        if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
-            Toast.makeText(context, R.string.not_connected, Toast.LENGTH_SHORT).show();
-            // return;
-        }
-        Toast.makeText(context,String.valueOf(mChatService.getState()), Toast.LENGTH_SHORT).show();
+        if (mChatService != null) {
+            if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+                Toast.makeText(context, R.string.not_connected, Toast.LENGTH_SHORT).show();
+                // return;
+            }
+            Toast.makeText(context, String.valueOf(mChatService.getState()), Toast.LENGTH_SHORT).show();
 
-        // Check that there's actually something to send
-        if (message.length() > 0) {
-            // Get the message bytes and tell the BluetoothChatService to write
-            byte[] send = message.getBytes();
-            mChatService.write(send);
-            // Reset out string buffer to zero and clear the edit text field
-            //mOutStringBuffer.setLength(0);
-            //mOutEditText.setText(mOutStringBuffer);
+            // Check that there's actually something to send
+            if (message.length() > 0) {
+                // Get the message bytes and tell the BluetoothChatService to write
+                byte[] send = message.getBytes();
+                mChatService.write(send);
+                // Reset out string buffer to zero and clear the edit text field
+                //mOutStringBuffer.setLength(0);
+                //mOutEditText.setText(mOutStringBuffer);
+            }
+        }else {
+            Toast.makeText(context, "Printer Not Connected", Toast.LENGTH_SHORT).show();
         }
     }
 

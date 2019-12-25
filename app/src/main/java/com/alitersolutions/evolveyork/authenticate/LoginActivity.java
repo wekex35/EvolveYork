@@ -15,6 +15,7 @@ import com.alitersolutions.evolveyork.activity.BaseActivity;
 import com.alitersolutions.evolveyork.activity.HomeActivity;
 import com.alitersolutions.evolveyork.model.ResponseModel;
 import com.alitersolutions.evolveyork.model.UserModel;
+import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyError;
@@ -33,6 +34,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
@@ -49,20 +52,14 @@ public class LoginActivity extends BaseActivity implements DataLoadListener {
 
 
     private TextInputLayout userId,password;
-    public static String BASE_SITE;
-    public static String BASE_URL;
+
     Button signin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        BASE_SITE = getStringValue(this,BASEURL);
-        BASE_URL = BASE_SITE + APIROUTE;
-        if (BASE_SITE.length() < 16){
-            Toast.makeText(this, "Configure Server IP", Toast.LENGTH_SHORT).show();
-            saveServerInfo(LoginActivity.this);
-        }
+
 
         if (getStringValue(this,USERLOGINDETAILS).length()>1)
             openAcitivty(HomeActivity.class);

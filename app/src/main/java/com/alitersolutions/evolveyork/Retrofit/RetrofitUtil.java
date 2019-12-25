@@ -20,8 +20,8 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_SITE;
-import static com.alitersolutions.evolveyork.authenticate.LoginActivity.BASE_URL;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.Constants.TOKEN;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
 

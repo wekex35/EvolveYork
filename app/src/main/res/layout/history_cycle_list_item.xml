@@ -33,12 +33,13 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
             <ImageView
+                android:layout_marginRight="@dimen/dp_10"
                 android:id="@+id/menu_setting"
                 android:clickable="true"
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/ic_more_vert_black_24dp"
+                android:src="@drawable/ic_print_black_24dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

@@ -23,6 +23,7 @@ public class BaseDatabase extends SQLiteOpenHelper {
             "EvolveLocationId text not null," +
             "EvolveItemMeasuringUnits text not null," +
             "EvolveItemQty text not null," +
+            "PrinterText text not null," +
             "UpdateDate text not null," +
             "UploadStatus text not null" +
             ");";

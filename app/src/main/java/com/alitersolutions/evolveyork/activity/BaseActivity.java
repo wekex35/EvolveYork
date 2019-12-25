@@ -33,6 +33,8 @@ import androidx.core.content.ContextCompat;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.Retrofit.RetrofitUtil;
+import com.alitersolutions.evolveyork.authenticate.LoginActivity;
+import com.alitersolutions.evolveyork.model.ResponseModel;
 import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.alitersolutions.evolveyork.utils.Constants;
 import com.google.gson.Gson;
@@ -42,8 +44,18 @@ import org.json.JSONObject;
 
 import java.util.Set;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_SITE;
+import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.intJsonreader;
 import static com.alitersolutions.evolveyork.utils.AppUtils.mChatService;
+import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
+import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
+import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
+import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.getStringValue;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -54,6 +66,15 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        BASE_SITE = getStringValue(this,BASEURL);
+        BASE_URL = BASE_SITE + APIROUTE;
+        if (BASE_SITE.length() < 16){
+            Toast.makeText(this, "Configure Server IP", Toast.LENGTH_SHORT).show();
+            saveServerInfo(this);
+        }else {
+            RetrofitUtil.createProviderAPI().testConnection().enqueue(TestConnection());
+        }
+
         //  if (getStringValue(this,TOKEN).length()>50)
           //  openAcitivty(MainActivity.class);
     /*    if (!isServerAvailable()){
@@ -62,14 +83,36 @@ public class BaseActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
+        if (mBluetoothAdapter == null)
+            mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         setActionBar();
-        intiBuletooh();
+//        intiBuletooh();
 //        getHashKey(this);
+
+
+    }
+
+    private Callback<ResponseModel> TestConnection() {
+        return new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                showToastLong("Server is not Reachable");
+                Nofication("Server is not Reachable \n"+BASE_URL);
+            }
+        };
     }
 
 
     public void showToast(String str){
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+    public void showToastLong(String str){
+        Toast.makeText(this, str, Toast.LENGTH_LONG).show();
     }
 
 
@@ -134,47 +177,45 @@ public class BaseActivity extends AppCompatActivity {
         setTitle(subTitle);
     }
 
-    private Set<BluetoothDevice> mPairedDevices;
-    private BluetoothAdapter mBluetoothAdapter = null;
-    private ArrayAdapter<String> mBTArrayAdapter;
+    public Set<BluetoothDevice> mPairedDevices;
+    public BluetoothAdapter mBluetoothAdapter = null;
+    public ArrayAdapter<String> mBTArrayAdapter;
     private static final String TAG = "DeviceListActivity";
     public static String EXTRA_DEVICE_ADDRESS = "device_address";
-    private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-    private static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
-    private static final int REQUEST_ENABLE_BT = 3;
+    public static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
+    public static final int REQUEST_CONNECT_DEVICE_INSECURE = 2;
+    public static final int REQUEST_ENABLE_BT = 3;
 
     private String mConnectedDeviceName = null;
     Dialog dialog;
     private static String address;
 
 
-    @Override
+/*    @Override
     public void onStart() {
         super.onStart();
         // If BT is not on, request that it be enabled.
         // setupChat() will then be called during onActivityResult
-       /* if (!mBluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled()) {
             Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
             // Otherwise, setup the chat session
-        }*/
+        }
     }
-
+*/
     public void intiBuletooh() {
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
         if (mChatService == null) {
             mChatService = new BluetoothChatService(getBaseContext());
             if (mBluetoothAdapter != null)
                 mChatService.start();
         }
 
-        // If the adapter is null, then Bluetooth is not supported
-
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
 
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+   /* public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE_SECURE:
@@ -202,9 +243,9 @@ public class BaseActivity extends AppCompatActivity {
                     finish();
                 }
         }
-    }
+    }*/
 
-    private void connectDevice(Intent data, boolean secure) {
+    public void connectDevice(Intent data, boolean secure) {
         // Get the device MAC address
         address = data.getExtras().getString(BluetoothDeviceListActivity.EXTRA_DEVICE_ADDRESS);
         // Get the BluetoothDevice object
@@ -242,21 +283,25 @@ public class BaseActivity extends AppCompatActivity {
                 Log.d(TAG, "updateUI:what2 "+what);
                 switch (what2) {
                     case BluetoothChatService.STATE_CONNECTED:
-                        setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-                        Nofication(getString(R.string.title_connected_to, mConnectedDeviceName));
+//                        setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
+                        Nofication("Printer Connected");
+                        showToast("Printer Connected");
+                        hideProgressDialog();
 
                         // mConversationArrayAdapter.clear();
                         break;
                     case BluetoothChatService.STATE_CONNECTING:
-
-                        setStatus(getString(R.string.title_connecting));
+//                        setStatus(getString(R.string.title_connecting));
                         Nofication(getString(R.string.title_connecting));
+                        showToast(getString(R.string.title_connecting));
+                        showProgressDialog("Connecting to Printer");
 
                         break;
                     case BluetoothChatService.STATE_LISTEN:
                     case BluetoothChatService.STATE_NONE:
-                        Nofication("Disconnected");
-                        setStatus(getString(R.string.title_not_connected));
+                        Nofication("Printer Disconnected");
+                        showToast("Printer Disconnected");
+//                        setStatus(getString(R.string.title_not_connected));
                         break;
                 }
                 break;

@@ -3,13 +3,19 @@ package com.alitersolutions.evolveyork.activity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alitersolutions.evolveyork.R;
 import com.alitersolutions.evolveyork.adapter.CycleHistoryAdapter;
+import com.alitersolutions.evolveyork.authenticate.LoginActivity;
 import com.alitersolutions.evolveyork.database.DatabaseHelper;
 import com.alitersolutions.evolveyork.model.BedHistoryModel;
 import com.alitersolutions.evolveyork.model.BedHistoryResponse;
@@ -24,6 +30,10 @@ import com.google.gson.reflect.TypeToken;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
+import static com.alitersolutions.evolveyork.utils.Constants.TOKEN;
+import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
 
 public class CycleHistory extends BaseActivity {
     RecyclerView recycler;
@@ -73,28 +83,6 @@ public class CycleHistory extends BaseActivity {
         BIM.setBed_id(bed_id);
         RetrofitUtil.createProviderAPIV2(this).getBedHistory(0,10,bed_id,1,1,"","").enqueue(loadBedHistory());
 */    }
-
-    private Callback<BedHistoryResponse> loadBedHistory() {
-        showProgressDialog();
-        return new Callback<BedHistoryResponse>() {
-            @Override
-            public void onResponse(Call<BedHistoryResponse> call, Response<BedHistoryResponse> response) {
-                //String js = gson.toJson(response.body().get());
-                final List<BedHistoryModel> BedInfo = response.body().getData();
-                if (BedInfo.isEmpty()){
-                    Toast.makeText(CycleHistory.this, "Not Available", Toast.LENGTH_SHORT).show();
-                }
-              //  ItemHistoryListAdapter bedListAdapter = new ItemHistoryListAdapter(CycleHistory.this,BedInfo);
-              //  recycler.setAdapter(bedListAdapter);
-                hideProgressDialog();
-            }
-
-            @Override
-            public void onFailure(Call<BedHistoryResponse> call, Throwable t) {
-
-            }
-        };
-    }
 
 
 

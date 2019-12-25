@@ -35,7 +35,7 @@
     <string name="configure_result_success_item">BSSID = %1$s, InetAddress = %2$s</string>
     <string name="verify">Verify</string>
     <string name="rfid">RFID</string>
-    <string name="axle_id">Axle Id</string>
+    <string name="axle_id">Axle Code</string>
     <string name="add_devices">Add Devices</string>
     <string name="get_status">Get Status</string>
     <string name="axle_status">Axle Status</string>
@@ -58,11 +58,11 @@
     <string name="dash">---</string>
     <string name="quantity">Quantity</string>
     <string name="batch_no">Batch No</string>
-    <string name="item_id">Item Id</string>
+    <string name="item_id">Item Code</string>
     <string name="print">Print</string>
     <string name="remarks">Remarks</string>
     <string name="cycle_count">Cycle Count</string>
-    <string name="location_id">Location Id</string>
+    <string name="location_id">Location Code</string>
     <string name="poweredby">Powered By Aliter Business Solutions Pvt. Ltd.</string>
     <string name="item_list">Item List</string>
     <string name="location_list">Location List</string>
@@ -85,9 +85,10 @@
     <string name="none_found">Not Found</string>
     <string name="title_not_connected">Disconnected</string>
     <string name="title_connecting">Connecting</string>
-    <string name="title_connected_to">connected to <xliff:g id="device_name">%1$s</xliff:g></string>
+<!--    <string name="title_connected_to">connected to <xliff:g id="device_name">%1$s</xliff:g></string>-->
     <string name="pair_bluetooth">Pair Bluetooth</string>
     <string name="not_connected">Printer Not Ccnnected</string>
+    <string name="show_history">Show History</string>
 
 
 </resources>
