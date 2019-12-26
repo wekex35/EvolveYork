@@ -153,7 +153,7 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
     public String getDeviceIMEI(Activity activity) {
 
         String deviceUniqueIdentifier = null;
-        TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
+        /*TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
         if (null != tm) {
             if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
                 ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_PHONE_STATE}, 1);
@@ -162,7 +162,8 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
             if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length())
                 deviceUniqueIdentifier = Settings.Secure.getString(HomeActivity.this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        }
+        }*/
+        deviceUniqueIdentifier = Settings.Secure.getString(HomeActivity.this.getContentResolver(), Settings.Secure.ANDROID_ID);
         return deviceUniqueIdentifier;
     }
 

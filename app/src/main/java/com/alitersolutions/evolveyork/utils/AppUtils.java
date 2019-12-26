@@ -47,7 +47,7 @@ import java.util.List;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
 import static com.alitersolutions.evolveyork.utils.SharedPreferenceUtil.storeStringValue;
-import static java.lang.System.in;
+
 
 public class AppUtils {
     public static BluetoothChatService mChatService = null;
@@ -173,12 +173,10 @@ public class AppUtils {
                     dialog.dismiss();
               //  }else{
                    // Toast.makeText(context, "Server not Reachable", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
+//                    dialog.dismiss();
                // }
             }
         });
-
-
 
         dialog.setContentView(view1);
         dialog.show();

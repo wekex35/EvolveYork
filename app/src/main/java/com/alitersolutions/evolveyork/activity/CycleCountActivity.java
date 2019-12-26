@@ -170,19 +170,19 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this, android.R.layout.simple_spinner_item, LocAdaptList);
             spinnerArrayAdapter.setDropDownViewResource(R.layout.autocomplete_item_dropdown_item); // The drop down vieww
             _itemID.setAdapter(spinnerArrayAdapter);
-
             _itemID.setThreshold(1);
-
 
             _itemID.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    position = LocAdaptList.indexOf(_itemID.getText().toString());
                     Log.d(TAG, "onItemSelected: " + masterItems.get(position).getEvolveItemDescription());
                     itemDescription = masterItems.get(position).getEvolveItemDescription();
 
-                    itemDesc.setText(masterItems.get(position).getEvolveItemDescription());
+                    itemDesc.setText(itemDescription);
                     EvovlePartId = masterItems.get(position).getEvolveItemID();
                     DIname = masterItems.get(position).getEvolveItemPart();
+                    Log.d(TAG, DIname+" onItemClick: "+EvovlePartId);
                     itemDesc.setVisibility(View.VISIBLE);
                 }
             });
@@ -199,7 +199,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             final List<MasterLocation> masterLocations = gson.fromJson(myJson, new TypeToken<List<MasterLocation>>() {
             }.getType());
 
-            ArrayList<String> LocAdaptList = new ArrayList<>();
+            final ArrayList<String> LocAdaptList = new ArrayList<>();
             for (MasterLocation masterLocation : masterLocations) {
                 LocAdaptList.add(masterLocation.getEvolveItemLocation().trim());
             }
@@ -211,8 +211,12 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             _loc_id.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    position = LocAdaptList.indexOf(_loc_id.getText().toString());
+//                    position = masterLocations.indexOf(_loc_id.getText().toString());
+//                    itemDescription = masterItems.get(position).getEvolveItemDescription();
                     EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
                     DLname = masterLocations.get(position).getEvolveItemLocation();
+                    Log.d(TAG, DLname+" onItemClick: "+EvolveLocId);
                 }
             });
         }
@@ -455,8 +459,8 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 //        else
         if (_quantity.getText().toString().isEmpty())
             showToast("Qunatity cannot be empty");
-        else if (remarks.isEmpty() )
-            showToast("Remarks cannot be empty");
+//        else if (remarks.isEmpty() )
+//            showToast("Remarks cannot be empty");
         else if (_itemID.getText().toString().isEmpty())
             showToast("Select Valid Part");
         else if (EvovlePartId == 0)
