@@ -443,7 +443,6 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 
     public void print(View view) {
 
-
        // int itemId = Integer.parseInt(_itemID.getText().toString());
         final String batchNo = _batch_no.getText().toString();
         int quantity = 0;
@@ -456,11 +455,15 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 //        else
         if (_quantity.getText().toString().isEmpty())
             showToast("Qunatity cannot be empty");
-        else if (remarks.isEmpty())
+        else if (remarks.isEmpty() )
             showToast("Remarks cannot be empty");
         else if (_itemID.getText().toString().isEmpty())
             showToast("Select Valid Part");
+        else if (EvovlePartId == 0)
+            showToast("Select Valid Part");
         else if (_loc_id.getText().toString().isEmpty())
+            showToast("Select Valid Location");
+        else if (EvolveLocId == 0)
             showToast("Select Valid Location");
         else {
             final SentModel sentModel = new SentModel();
@@ -552,7 +555,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
                         params.put("EvolveItemQty", String.valueOf(finalQuantity));
                         params.put("EvolveItemDescription", itemDescription);
                         params.put("EvolveUsr_ID", getStringValue(CycleCountActivity.this,EVOLVEUSRID));
-                        params.put("EvolveItemHistoryMacAddress", getStringValue(CycleCountActivity.this,deviceIMEI));
+                        params.put("EvolveItemHistoryMacAddress", deviceIMEI);
                         Log.d(TAG, "getParams: "+params.toString());
                         return params;
                     }

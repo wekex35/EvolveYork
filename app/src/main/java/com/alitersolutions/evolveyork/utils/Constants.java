@@ -23,25 +23,25 @@ public interface Constants {
     String str = "\r\n";
     String EVOLVEUSRNAME = "EvolveUsr_Name";
     // Message types sent from the BluetoothChatService Handler
-    public static final int MESSAGE_STATE_CHANGE = 1;
-    public static final int MESSAGE_READ = 2;
-    public static final int MESSAGE_WRITE = 3;
-    public static final int MESSAGE_DEVICE_NAME = 4;
-    public static final int MESSAGE_TOAST = 5;
+     int MESSAGE_STATE_CHANGE = 1;
+     int MESSAGE_READ = 2;
+     int MESSAGE_WRITE = 3;
+     int MESSAGE_DEVICE_NAME = 4;
+     int MESSAGE_TOAST = 5;
 
 
 
 
     // Key names received from the BluetoothChatService Handler
-    public static final String DEVICE_NAME = "device_name";
-    public static final String TOAST = "toast";
+     String DEVICE_NAME = "device_name";
+     String TOAST = "toast";
 
 
-    public static final String EMPTY = "empty";
-    public static final String KEY_ID = "id";
-    public static final String KEY_NAME = "name";
-    public static final String KEY_LAYOUT_NAME = "layout_name";
-    public static final String KEY_JSONVIEW = "jsonview";
+     String EMPTY = "empty";
+     String KEY_ID = "id";
+     String KEY_NAME = "name";
+     String KEY_LAYOUT_NAME = "layout_name";
+     String KEY_JSONVIEW = "jsonview";
 
     //View Info
     String TOP_MARGIN = "topmargin";

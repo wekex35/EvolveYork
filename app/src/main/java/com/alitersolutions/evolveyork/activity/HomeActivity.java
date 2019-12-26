@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
@@ -149,8 +150,7 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         //andGoToYourNextStep
     }
 
-    @SuppressLint("HardwareIds")
-    public static String getDeviceIMEI(Activity activity) {
+    public String getDeviceIMEI(Activity activity) {
 
         String deviceUniqueIdentifier = null;
         TelephonyManager tm = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
@@ -160,10 +160,13 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
             else
                 deviceUniqueIdentifier = tm.getDeviceId();
             if (null == deviceUniqueIdentifier || 0 == deviceUniqueIdentifier.length())
-                deviceUniqueIdentifier = "0";
+                deviceUniqueIdentifier = Settings.Secure.getString(HomeActivity.this.getContentResolver(), Settings.Secure.ANDROID_ID);
+
         }
         return deviceUniqueIdentifier;
     }
+
+
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
