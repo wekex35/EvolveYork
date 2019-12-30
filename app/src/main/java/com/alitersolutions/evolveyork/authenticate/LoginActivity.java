@@ -39,6 +39,7 @@ import static com.alitersolutions.evolveyork.utils.AppUtils.BASE_URL;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
 import static com.alitersolutions.evolveyork.utils.Constants.APIROUTE;
 import static com.alitersolutions.evolveyork.utils.Constants.BASEURL;
+import static com.alitersolutions.evolveyork.utils.Constants.EVOLVEUSERROlE;
 import static com.alitersolutions.evolveyork.utils.Constants.EVOLVEUSRID;
 import static com.alitersolutions.evolveyork.utils.Constants.EVOLVEUSRNAME;
 import static com.alitersolutions.evolveyork.utils.Constants.TOKEN;
@@ -112,11 +113,20 @@ public class LoginActivity extends BaseActivity implements DataLoadListener {
                             Log.d(TAG, "onResponse: hey "+js);
                             try {
                                 JSONObject jsonObject = new JSONObject(js);
-                                Log.d(TAG, " onResponse: "+jsonObject.getString(EVOLVEUSRNAME));
+                                String userRole = jsonObject.getJSONArray(EVOLVEUSERROlE).toString();
+                                Log.d(TAG, " onResponse: "+jsonObject.getString(EVOLVEUSERROlE));
+
+                                //Stock Verification
+
 //                                Log.d(TAG, " onResponse: "+jsonObject.getString(EVOLVEUSRID));
-                                storeStringValue(LoginActivity.this,USERLOGINDETAILS,jsonObject.getString(EVOLVEUSRNAME));
-                                storeStringValue(LoginActivity.this,EVOLVEUSRID,String.valueOf(jsonObject.getInt(EVOLVEUSRID)));
-                                openAcitivty(HomeActivity.class);
+
+                                if (userRole.contains("Stock Verification")||userRole.contains("Administrator")) {
+                                    storeStringValue(LoginActivity.this, USERLOGINDETAILS, jsonObject.getString(EVOLVEUSRNAME));
+                                    storeStringValue(LoginActivity.this, EVOLVEUSRID, String.valueOf(jsonObject.getInt(EVOLVEUSRID)));
+                                    openAcitivty(HomeActivity.class);
+                                }else{
+                                    Toast.makeText(LoginActivity.this, "Not Authorized", Toast.LENGTH_SHORT).show();
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

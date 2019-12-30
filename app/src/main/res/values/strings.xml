@@ -1,7 +1,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">York</string>
 
-    <string name="userid">Email/Phone</string>
+    <string name="userid">User ID</string>
     <string name="password">Password</string>
     <string name="forgotpassword">Forgot Password ?</string>
     <string name="authenticating">Authenticating</string>
@@ -89,6 +89,8 @@
     <string name="pair_bluetooth">Pair Bluetooth</string>
     <string name="not_connected">Printer Not Ccnnected</string>
     <string name="show_history">Show History</string>
+    <string name="tag_id">TAG</string>
+    <string name="print_question">Are you sure, You want to print ?</string>
 
 
 </resources>

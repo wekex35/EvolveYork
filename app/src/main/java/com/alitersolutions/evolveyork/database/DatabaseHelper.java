@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.alitersolutions.evolveyork.model.SentModel;
-import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -66,7 +65,6 @@ public class DatabaseHelper {
         }
         cursor.close();
        return gson.toJson(list);
-
 
     }
 }

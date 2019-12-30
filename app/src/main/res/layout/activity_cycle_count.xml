@@ -42,15 +42,28 @@
 
         <TextView
             android:visibility="gone"
+
             android:id="@+id/itemDesc"
             android:layout_margin="2dp"
-            style="@style/editText"
+            android:padding="@dimen/dp_10"
+
+            android:textColor="@color/black"
             android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <RelativeLayout
+            style="@style/editText_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Spinner
+                android:id="@+id/loc_id_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </RelativeLayout>
 
         <AutoCompleteTextView
+            android:visibility="gone"
             android:hint="@string/location_id"
             android:id="@+id/loc_id"
             style="@style/editText_margin"
@@ -66,6 +79,15 @@
             android:layout_height="wrap_content"
             android:inputType="number" />
 
+
+        <EditText
+                android:id="@+id/tag_id"
+                android:gravity="top"
+                android:lines="4"
+                android:hint="@string/tag_id"
+                style="@style/editText_margin"
+                android:layout_width="match_parent"
+                android:inputType="number" />
 
         <EditText
                 android:id="@+id/batch_no"

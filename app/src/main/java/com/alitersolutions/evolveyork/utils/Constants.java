@@ -18,10 +18,11 @@ public interface Constants {
     String  BASEURL = "baseurl";
     String  LOCATIONINFO = "locationinfo";
     String  ITEMINFO = "iteminfo";
-    String  APIROUTE = "/dev/";//dev
+    String  APIROUTE = "/";//dev
 //    String  APIROUTE = "/evolveyei/";//dev
     String str = "\r\n";
     String EVOLVEUSRNAME = "EvolveUsr_Name";
+    String EVOLVEUSERROlE = "user_role";
     // Message types sent from the BluetoothChatService Handler
      int MESSAGE_STATE_CHANGE = 1;
      int MESSAGE_READ = 2;

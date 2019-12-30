@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.net.http.SslCertificate;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
@@ -86,7 +88,9 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
     private String TAG = "CycleCountActivity";
     public static ZBarScannerView mScannerView;
     AutoCompleteTextView _itemID,_loc_id;
-    EditText _quantity,_batch_no,_remarks;
+    EditText _quantity,_batch_no,_remarks,_tag_no;
+    Spinner loc_id_spinner;
+
     ImageView qr_code;
     TextView dateTV,itemDesc;
     Spinner bedSizes,bedTypes;
@@ -133,6 +137,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
     }
 
     private void initView() {
+        loc_id_spinner = findViewById(R.id.loc_id_spinner);
         _itemID = findViewById(R.id.item_id);
         _quantity = findViewById(R.id.quant);
         qr_code = findViewById(R.id.qr_code);
@@ -142,6 +147,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
         itemDesc = findViewById(R.id.itemDesc);
         save = findViewById(R.id.save);
         units = findViewById(R.id.units);
+        _tag_no = findViewById(R.id.tag_id);
 
 //        RetrofitUtil.createProviderAPIV2(this).getallTypes().enqueue(loadTypes());
  //       RetrofitUtil.createProviderAPIV2(this).getAllSizes().enqueue(loadSizes());
@@ -206,19 +212,32 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 
             ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(CycleCountActivity.this, android.R.layout.simple_spinner_item, LocAdaptList);
             spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item); // The drop down vieww
-            _loc_id.setAdapter(spinnerArrayAdapter);
-            _loc_id.setThreshold(1);
-            _loc_id.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            loc_id_spinner.setAdapter(spinnerArrayAdapter);
+            //loc_id_spinner.setThreshold(1);
+            loc_id_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
+                    DLname = masterLocations.get(position).getEvolveItemLocation();
+                    Log.d(TAG, DLname+" onItemClick: "+EvolveLocId);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+           /* loc_id_spinner.setOnItemSelectedListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    position = LocAdaptList.indexOf(_loc_id.getText().toString());
+                  //  position = LocAdaptList.indexOf(_loc_id.getText().toString());
 //                    position = masterLocations.indexOf(_loc_id.getText().toString());
 //                    itemDescription = masterItems.get(position).getEvolveItemDescription();
                     EvolveLocId = masterLocations.get(position).getEvolveItemLocationID();
                     DLname = masterLocations.get(position).getEvolveItemLocation();
                     Log.d(TAG, DLname+" onItemClick: "+EvolveLocId);
                 }
-            });
+            });*/
         }
     }
 
@@ -445,10 +464,49 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 
     }
 
-    public void print(View view) {
+    public void print(View view){
+        showDialog();
+
+    }
+
+    private void showDialog() throws Resources.NotFoundException {
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.print))
+                .setMessage(
+                        getResources().getString(R.string.print_question))
+                .setIcon(
+                        getResources().getDrawable(
+                                R.drawable.ic_print_black_24dp))
+                .setPositiveButton(
+                        getResources().getString(R.string.yes),
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                               printIt();
+
+                            }
+                        })
+                .setNegativeButton(
+                        getResources().getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                //Do Something Here
+                            }
+                        }).show();
+    }
+
+    public void printIt() {
 
        // int itemId = Integer.parseInt(_itemID.getText().toString());
         final String batchNo = _batch_no.getText().toString();
+        final String UserName =  getStringValue(CycleCountActivity.this,USERLOGINDETAILS);
+        final String tagNo = _tag_no.getText().toString();
+
         int quantity = 0;
         if (!_quantity.getText().toString().isEmpty())
           quantity = Integer.parseInt(_quantity.getText().toString());
@@ -459,19 +517,20 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 //        else
         if (_quantity.getText().toString().isEmpty())
             showToast("Qunatity cannot be empty");
-//        else if (remarks.isEmpty() )
-//            showToast("Remarks cannot be empty");
+        else if (tagNo.isEmpty() )
+            showToast("Tag cannot be empty");
         else if (_itemID.getText().toString().isEmpty())
             showToast("Select Valid Part");
+
         else if (EvovlePartId == 0)
             showToast("Select Valid Part");
-        else if (_loc_id.getText().toString().isEmpty())
-            showToast("Select Valid Location");
+//        else if (_loc_id.getText().toString().isEmpty())
+//            showToast("Select Valid Location");
         else if (EvolveLocId == 0)
             showToast("Select Valid Location");
         else {
             final SentModel sentModel = new SentModel();
-            DatabaseHelper databaseHelper = new DatabaseHelper(this);
+            final DatabaseHelper databaseHelper = new DatabaseHelper(this);
 
             sentModel.setEvolveItemID(EvovlePartId);
             sentModel.setEvolveBatchNo(batchNo);
@@ -483,36 +542,56 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             sentModel.setEvolveItemName(DIname);
             sentModel.setUpdatedDate(getCurrentTimeStamp());
             sentModel.setUploadStatus("1");
-            sentModel.setUploadStatus("1");
+//            sentModel.setUploadStatus("1");
 
-            String QRText = "PART ID :"+DIname
+
+            Log.d(TAG, "print: size " + itemDescription.length());
+            String desc = "";
+            if (itemDescription.length() > 30 && itemDescription.length() < 60) {
+                desc += "TEXT 5 0 20 265 DESC : "+itemDescription.substring(0, 30)+str;
+                desc += "TEXT 5 0 20 295 "+itemDescription.substring(30, itemDescription.length())+str;
+            }else  if (itemDescription.length() > 60) {
+                desc += "TEXT 5 0 20 265 DESC : "+itemDescription.substring(0, 30)+str;
+                desc += "TEXT 5 0 20 295 "+itemDescription.substring(30, 60)+str;
+                desc += "TEXT 5 0 20 225 "+itemDescription.substring(60, itemDescription.length())+str;
+            }else  {
+                desc += "TEXT 5 0 20 265 DESC : "+itemDescription +str;
+            }
+
+
+            String QRText = "PART ID : "+DIname
                     +"\n LOC ID : "+DLname
-                    +"\n DES : "+itemDescription;
+                    +"\n QTY : "+quantity+" "+units.getSelectedItem().toString()
+//                    +"\n DESC : "+itemDescription
+                    +"\n Counted By : "+UserName;
 
             final String sb2 = "! 0 200 200 424 1"+str
                     +"IN-DOTS"+str
-                    +"B QR 455 5 M 2 U 3"+str
+                    +"B QR 380 5 M 2 U 4"+str
                     +"MA, "+QRText+" "+ str
                     +"ENDQR"+str
-                    +"CENTER"+str
+                    +"LEFT"+str
 //                +"UNDERLINE OFF"+str
-                    +"TEXT 4 0 20 15 Stock Tracking"+str
+                    +"TEXT 4 0 20 5 Stock Verification"+str
+                    +"TEXT 5 0 20 60 TAG NO : "+tagNo+str
 //                +"UNDERLINE ON"+str
                     +"LEFT"+str
-                    +"TEXT 5 0 20 90 ITEM CODE : "+DIname+str
-                    +"TEXT 7 0 20 120 DESC : "+itemDescription+str
-                    +"TEXT 5 0 20 170 QTY : "+quantity+" "+units.getSelectedItem().toString()+str
+                    +"TEXT 5 0 20 90 ITEM CODE : "+str
+                    +"TEXT 5 0 20 120 "+DIname+str
+                    +"TEXT 5 0 20 150 QTY : "+quantity+" "+units.getSelectedItem().toString()+str
 //                +"RIGHT"+str
-                    +"TEXT 5 0 240 170 LOCATION : "+DLname+str
+                    +"TEXT 5 0 20 178 LOC : "+DLname+str
 //                +"LEFT"+str
-                    +"TEXT 5 0 20 200 STOCK DATE : "+getCurrentTimeStamp()+str
-                    +"TEXT 5 0 20 250 STOCK TAKEN : "+" User "+str
+
+                    +"TEXT 5 0 20 205 COUNTED DATE : "+getCurrentTimeStamp()+str
+                    +"TEXT 5 0 20 235 COUNTED BY : "+UserName+str
+                    +desc
                     +"PRINT"+str;
             sentModel.setPrinterText(sb2);
 
             Log.d(TAG, "print: "+sb2);
 
-            if(databaseHelper.insertCycleCount(sentModel) > 0 ){
+
 
             if (BASE_SITE.length() > 5) {
                 showProgressDialog("Uploading...");
@@ -524,18 +603,23 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
                             public void onResponse(String response) {
                                 Log.d("Response", response);
                                 hideProgressDialog();
-                                sendMessage(CycleCountActivity.this,sb2);//Send Message to the printer
                                 ResponseModel responseModel = gson.fromJson(response,ResponseModel.class);
-                                if ( responseModel.getError().contains("false")) {
+                                if (responseModel.getError().contains("false")) {
                                     Toast.makeText(CycleCountActivity.this, "Updated to Server", Toast.LENGTH_SHORT).show();
+
+                                    if(databaseHelper.insertCycleCount(sentModel) == 0 )
+                                        Log.d(TAG, "Print: Not Saved");
+
+                                    sendMessage(CycleCountActivity.this,sb2);//Send Message to the printer
                                     _batch_no.setText("");
                                     _itemID.setText("");
                                     _loc_id.setText("");
                                     _quantity.setText("");
                                     _remarks.setText("");
                                     itemDesc.setVisibility(View.GONE);
+
                                 }else {
-                                    showToast("Not Added");
+                                    showToast(responseModel.getMessage());
                                 }
                             }
                         }, new com.android.volley.Response.ErrorListener() {
@@ -560,6 +644,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
                         params.put("EvolveItemDescription", itemDescription);
                         params.put("EvolveUsr_ID", getStringValue(CycleCountActivity.this,EVOLVEUSRID));
                         params.put("EvolveItemHistoryMacAddress", deviceIMEI);
+                        params.put("EvolveItemTagNo", tagNo);
                         Log.d(TAG, "getParams: "+params.toString());
                         return params;
                     }
@@ -570,13 +655,9 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
             }else {
                 saveServerInfo(CycleCountActivity.this);
             }
-            }else
-                Log.d(TAG, "Print: Not Saved");
+
 
             Log.d(TAG, "print: " + gson.toJson(sentModel));
-
-
-
 
         }
 
@@ -593,12 +674,12 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.show_history :
+            case R.id.server_setting :
                 saveServerInfo(CycleCountActivity.this);
                 return true;
 
-            case R.id.server_setting :
-                openAcitivty(CycleHistoryAdapter.class);
+            case R.id.show_history:
+                openAcitivty(CycleHistory.class);
                 return true;
 
             default: return super.onOptionsItemSelected(item);

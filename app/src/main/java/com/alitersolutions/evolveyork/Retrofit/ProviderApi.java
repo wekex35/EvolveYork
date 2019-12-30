@@ -27,8 +27,8 @@ public interface ProviderApi {
 //        String BASE_SITE = "http://192.168.1.102/aliter/";
 
 
-        @GET("Items_API/Items_API/testConnection")
-        Call<ResponseModel> testConnection();
+       /* @GET("Items_API/Items_API/testConnection")
+        Call<ResponseModel> testConnection();*/
 
         @GET("Items_API/get_all_location")
         Call<ResponseModel> getAllLocation();

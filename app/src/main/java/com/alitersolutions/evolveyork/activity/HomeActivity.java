@@ -28,7 +28,6 @@ import com.alitersolutions.evolveyork.authenticate.LoginActivity;
 import com.alitersolutions.evolveyork.utils.AppUtils;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 
 import static com.alitersolutions.evolveyork.utils.AppUtils.deviceIMEI;
 import static com.alitersolutions.evolveyork.utils.AppUtils.saveServerInfo;
@@ -55,6 +54,8 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         String BASE_SITE = getStringValue(this,BASEURL);
         CheckPermissionAndStartIntent();
+
+
     }
 
     @Override

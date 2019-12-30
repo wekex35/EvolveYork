@@ -71,8 +71,9 @@ public class BaseActivity extends AppCompatActivity {
         if (BASE_SITE.length() < 16){
             Toast.makeText(this, "Configure Server IP", Toast.LENGTH_SHORT).show();
             saveServerInfo(this);
-        }else {
-            RetrofitUtil.createProviderAPI().testConnection().enqueue(TestConnection());
+        }else
+            {
+            //RetrofitUtil.createProviderAPI().testConnection().enqueue(TestConnection());
         }
 
         //  if (getStringValue(this,TOKEN).length()>50)
