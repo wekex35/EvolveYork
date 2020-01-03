@@ -565,6 +565,8 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
 //                    +"\n DESC : "+itemDescription
                     +"\n Counted By : "+UserName;
 
+
+
             final String sb2 = "! 0 200 200 424 1"+str
                     +"IN-DOTS"+str
                     +"B QR 380 5 M 2 U 4"+str
@@ -587,6 +589,7 @@ public class CycleCountActivity extends BaseActivity implements ZBarScannerView.
                     +"TEXT 5 0 20 235 COUNTED BY : "+UserName+str
                     +desc
                     +"PRINT"+str;
+
             sentModel.setPrinterText(sb2);
 
             Log.d(TAG, "print: "+sb2);
