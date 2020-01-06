@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +17,6 @@ import com.alitersolutions.evolveyork.activity.ItemInfo;
 import com.alitersolutions.evolveyork.model.BedInfoModel;
 import com.alitersolutions.evolveyork.model.MasterItems;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.alitersolutions.evolveyork.utils.Constants.INDTENTDATA;
@@ -37,7 +34,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.BedLis
     @NonNull
     @Override
     public BedListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.bed_item_list,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.two_item_list,parent,false);
         return new BedListViewHolder(view);
     }
 

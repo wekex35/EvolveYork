@@ -1,7 +1,6 @@
 package com.alitersolutions.evolveyork.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alitersolutions.evolveyork.R;
-import com.alitersolutions.evolveyork.activity.ItemInfo;
 import com.alitersolutions.evolveyork.activity.LocationLists;
 import com.alitersolutions.evolveyork.model.MasterItems;
 import com.alitersolutions.evolveyork.model.MasterLocation;
@@ -36,7 +34,7 @@ public class LocationListsAdapter extends RecyclerView.Adapter<LocationListsAdap
     @NonNull
     @Override
     public LocationListsAdapter.LocationListsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.bed_item_list,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.two_item_list,parent,false);
         return new LocationListsViewHolder(view);
     }
 

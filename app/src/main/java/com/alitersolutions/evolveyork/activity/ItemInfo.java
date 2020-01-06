@@ -1,6 +1,5 @@
 package com.alitersolutions.evolveyork.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,7 +55,7 @@ public class ItemInfo extends BaseActivity {
     }
 
     private View setKeyValue(String k, String v) {
-        View view =  LayoutInflater.from(this).inflate(R.layout.bed_item_list,null,false);
+        View view =  LayoutInflater.from(this).inflate(R.layout.two_item_list,null,false);
         TextView key = view.findViewById(R.id.key);
         TextView value = view.findViewById(R.id.value);
         key.setText(k);
