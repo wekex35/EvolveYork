@@ -43,9 +43,7 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
     private String TAG = "HomeActivity";
     private Gson gson = new Gson();
     private static final int REQUEST_CONNECT_DEVICE_SECURE = 1;
-
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +52,6 @@ public class HomeActivity extends BaseActivity /*implements HomeApplicationAdapt
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         String BASE_SITE = getStringValue(this,BASEURL);
         CheckPermissionAndStartIntent();
-
-
     }
 
     @Override
